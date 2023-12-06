@@ -8,7 +8,6 @@ class User extends Conexion
     private $user;
     private $pass;
     private $email;
-    private $apellido;
     private $id_type;
     private $estado;
 
@@ -21,7 +20,6 @@ class User extends Conexion
         $this->user = "";
         $this->pass = "";
         $this->email = "";
-        $this->apellido = "";
         $this->id_type = "";
         $this->estado = "";
     }
@@ -68,15 +66,6 @@ class User extends Conexion
         $password = hash('sha256', $pass);
         $this->pass = $password;
     }
-    public function getApellido()
-    {
-        return $this->apellido;
-    }
-
-    public function setApellido($apellido)
-    {
-        $this->apellido = $apellido;
-    }
     public function getId_type()
     {
         return $this->id_type;
@@ -113,15 +102,24 @@ public function saveUsr($empleo)
         $save = $this->db->query($query);
         $_SESSION['mensaje'] = $this->db->error;
         if ($save == true) {
-            return true;
+            $respon = array();
+            $respon['error']='false';
+            $respon['message']='¡Usuario Creado con Exito!';
+            $respon['request']="";
+            return $respon;
         } else {
-
+            
+            $respon = array();
+            $respon['error']='true';
+            $respon['message']='¡Usuario Error al guardar, verifica la información proporcionada e intenta de nuevo!';
+            $respon['request']="";
+            return $respon;
             return false;
         }
     }
     public function updateUsr($empleo)
     {
-        $query = "UPDATE user SET user = '" . $this->user . "',name='" . $this->name . "',apellido='" . $this->apellido . "',id_type= '$empleo' WHERE id_user = $this->id_user;";
+        $query = "UPDATE user SET user = '" . $this->user . "',name='" . $this->name . "',id_type= '$empleo' WHERE id_user = $this->id_user;";
         $save = $this->db->query($query);
         $_SESSION['mensaje'] = $this->db->error;
         if ($save == true) {
