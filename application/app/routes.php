@@ -61,19 +61,19 @@ return function (App $app) {
     //------------------------------------------------------------------------------------//
     $app->post('/user/register',function(Request $request, Response $response)use($app){
         #obtengo las variables y sus datos
-        if ($request->getAttribute('email')!=null) {
+        if ($request->getQueryParams('email')!="") {
                                           
-            $email=$request->getAttribute('email');
-            if ($request->getAttribute('user')!=null) {
+            $email=$request->getQueryParams('email');
+            if ($request->getQueryParams('user')!="") {
                                           
-                $user=$request->getAttribute('user');
+                $user=$request->getQueryParams('user');
                 $type='2';
-                if ($request->getAttribute('name')!=null) {
+                if ($request->getQueryParams('name')!="") {
                                           
-                    $name=$request->getAttribute('name');
-                    if ($request->getAttribute('pass')!=null) {
+                    $name=$request->getQueryParams('name');
+                    if ($request->getQueryParams('pass')!="") {
                                               
-                        $pass=$request->getAttribute('pass');
+                        $pass=$request->getQueryParams('pass');
                      
                     }else{
                         http_response_code(401);

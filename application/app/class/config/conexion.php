@@ -4,7 +4,7 @@ class Conexion
 { 
     protected $db; 
     public function __construct(){ 
-        $this->db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME); 
+        $this->db = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME); 
         if ( $this->db->connect_errno){ 
             echo "Fallo al conectar a MySQL: ". $this->db->connect_error; 
             return;     
