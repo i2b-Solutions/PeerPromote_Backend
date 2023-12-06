@@ -1,61 +1,61 @@
 <?php
 
 require_once "config/conexion.php";
-class Usuario extends Conexion
+class User extends Conexion
 {
-    private $id_usuario;
-    private $nombre;
-    private $usuario;
+    private $id_user;
+    private $name;
+    private $user;
     private $pass;
-    private $telefono;
+    private $email;
     private $apellido;
-    private $id_tipo_usuario;
+    private $id_type;
     private $estado;
 
     public function __construct()
     {
         parent::__construct(); //Llamada al constructor de la clase padre
 
-        $this->id_usuario = "";
-        $this->nombre = "";
-        $this->usuario = "";
+        $this->id_user = "";
+        $this->name = "";
+        $this->user = "";
         $this->pass = "";
-        $this->telefono = "";
+        $this->email = "";
         $this->apellido = "";
-        $this->id_tipo_usuario = "";
+        $this->id_type = "";
         $this->estado = "";
     }
 
 
 
-    public function getId_usuario()
+    public function getId_user()
     {
-        return $this->id_usuario;
+        return $this->id_user;
     }
 
-    public function setId_usuario($id)
+    public function setId_user($id)
     {
-        $this->id_usuario = $id;
+        $this->id_user = $id;
     }
 
-    public function getNombre()
+    public function getName()
     {
-        return $this->nombre;
+        return $this->name;
     }
 
-    public function setNombre($nombre)
+    public function setName($name)
     {
-        $this->nombre = $nombre;
+        $this->name = $name;
     }
 
-    public function getUsuario()
+    public function getUser()
     {
-        return $this->usuario;
+        return $this->user;
     }
 
-    public function setUsuario($usuario)
+    public function setUser($user)
     {
-        $this->usuario = $usuario;
+        $this->user = $user;
     }
 
     public function getPass()
@@ -77,24 +77,24 @@ class Usuario extends Conexion
     {
         $this->apellido = $apellido;
     }
-    public function getId_tipo_usuario()
+    public function getId_type()
     {
-        return $this->id_tipo_usuario;
+        return $this->id_type;
     }
 
-    public function setId_tipo_usuario($id_tipo_usuario)
+    public function setId_type($id_type)
     {
-        $this->id_tipo_usuario = $id_tipo_usuario;
+        $this->id_type = $id_type;
     }
 
-    public function getTelefono()
+    public function getEmail()
     {
-        return $this->telefono;
+        return $this->email;
     }
 
-    public function setTelefono($telefono)
+    public function setEmail($email)
     {
-        $this->telefono = $telefono;
+        $this->email = $email;
     }
     public function getEstado()
     {
@@ -108,8 +108,8 @@ class Usuario extends Conexion
     //-------------------------------------------------------------------------------- Funciones --------------------------------------------------------------------------------//
 public function saveUsr($empleo)
     {
-        $query = "INSERT INTO usuario (id_usuario,usuario,pass,nombre,apellido,id_tipo_usuario,created_at)
-                  values(NULL,'" . $this->usuario . "','" . $this->pass . "','" . $this->nombre . "','" . $this->apellido . "','$empleo',NOW());";
+        $query = "INSERT INTO user (id_user,user,password,name,id_type,created_at)
+                  values(NULL,'" . $this->user . "','" . $this->pass . "','" . $this->name . "','$empleo',NOW());";
         $save = $this->db->query($query);
         $_SESSION['mensaje'] = $this->db->error;
         if ($save == true) {
@@ -121,7 +121,7 @@ public function saveUsr($empleo)
     }
     public function updateUsr($empleo)
     {
-        $query = "UPDATE usuario SET usuario = '" . $this->usuario . "',nombre='" . $this->nombre . "',apellido='" . $this->apellido . "',id_tipo_usuario= '$empleo' WHERE id_usuario = $this->id_usuario;";
+        $query = "UPDATE user SET user = '" . $this->user . "',name='" . $this->name . "',apellido='" . $this->apellido . "',id_type= '$empleo' WHERE id_user = $this->id_user;";
         $save = $this->db->query($query);
         $_SESSION['mensaje'] = $this->db->error;
         if ($save == true) {
@@ -133,18 +133,18 @@ public function saveUsr($empleo)
     }
 public function login()
     {
-        $query1 = "SELECT u.*, tu.tipo_usuario as tipo, a.id_perfil FROM usuario u INNER JOIN tipo_usuario tu ON tu.id_tipo_usuario=u.id_tipo_usuario LEFT JOIN perfil a ON u.id_usuario=a.id_usuario WHERE u.usuario='" . $this->usuario . "' AND u.pass='" . $this->pass . "'";
+        $query1 = "SELECT u.*, tu.type as tipo, a.id_perfil FROM user u INNER JOIN type tu ON tu.id_type=u.id_type LEFT JOIN perfil a ON u.id_user=a.id_user WHERE u.user='" . $this->user . "' AND u.pass='" . $this->pass . "'";
         $selectall1 = $this->db->query($query1);
-        $ListUsuario = $selectall1->fetch_all(MYSQLI_ASSOC);
+        $ListUser = $selectall1->fetch_all(MYSQLI_ASSOC);
 
         if ($selectall1->num_rows != 0 ) {
-            foreach ($ListUsuario as $key) {
+            foreach ($ListUser as $key) {
                 if ($key['estado'] == 'Activo') {
                     session_start();
                     $_SESSION['logged-in'] = true;
-                    $_SESSION['Usuario'] = $key['usuario'];
-                    $_SESSION['id_usuario'] = $key['id_usuario'];
-                    $_SESSION['tipo'] = $key['id_tipo_usuario'];
+                    $_SESSION['User'] = $key['user'];
+                    $_SESSION['id_user'] = $key['id_user'];
+                    $_SESSION['tipo'] = $key['id_type'];
                     $_SESSION['id_perfil'] = $key['id_perfil'];
                     $_SESSION['tiempo'] = time();
                     $_SESSION['acceso'] = '';
@@ -165,8 +165,8 @@ public function login()
     }
 public function save($empleo)
     {
-        $query = "INSERT INTO usuario (id_usuario,usuario,pass,id_tipo_usuario,telefono,created_at)
-              values(NULL,'" . $this->usuario . "','" . $this->pass . "',3,'" . $this->telefono . "',NOW());";
+        $query = "INSERT INTO user (id_user,user,pass,id_type,email,created_at)
+              values(NULL,'" . $this->user . "','" . $this->pass . "',3,'" . $this->email . "',NOW());";
         $save = $this->db->query($query);
 
         $_SESSION['mensaje'] = $this->db->error;
@@ -181,7 +181,7 @@ public function save($empleo)
 
 public function delete()
     {
-        $query = "DELETE FROM usuario WHERE id_usuario='" . $this->id_usuario . "'";
+        $query = "DELETE FROM user WHERE id_user='" . $this->id_user . "'";
         $delete = $this->db->query($query);
         if ($delete == true) {
             return true;
@@ -193,24 +193,36 @@ public function delete()
 
     public function selectOne($codigo)
     {
-        $query = "SELECT * FROM usuario WHERE id_usuario=" . $codigo . "";
+        $query = "SELECT * FROM user WHERE id_user=" . $codigo . "";
         $selectall = $this->db->query($query);
-        $ListUsuario = $selectall->fetch_all(MYSQLI_ASSOC);
-        return $ListUsuario;
+        $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListUser;
     }
 
-    //------------------------------------------------------------------//
-    public function selectTipoUsuario()
+    public function selectAll()
     {
-        $query = "SELECT * FROM tipo_usuario";
+        $query = "SELECT * FROM user";
         $selectall = $this->db->query($query);
-        $ListUsuario = $selectall->fetch_all(MYSQLI_ASSOC);
-        return $ListUsuario;
+        $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
+        $respon = array();
+                $respon['error']='false';
+                $respon['message']='Usuarios';
+                $respon['request']=$ListUser;
+                return $respon;
+
+    }
+    //------------------------------------------------------------------//
+    public function selectTipoUser()
+    {
+        $query = "SELECT * FROM type";
+        $selectall = $this->db->query($query);
+        $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListUser;
     }
 
     public function updateStatus()
     {
-        $query = "UPDATE usuario SET estado='$this->estado' WHERE id_usuario=" . $this->id_usuario . "";
+        $query = "UPDATE user SET estado='$this->estado' WHERE id_user=" . $this->id_user . "";
         $delete = $this->db->query($query);
         if ($delete == true) {
             return true;
