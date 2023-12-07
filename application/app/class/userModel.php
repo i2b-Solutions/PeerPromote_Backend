@@ -63,7 +63,9 @@ class User extends Conexion
 
     public function setPass($pass)
     {
-        $password = hash('sha256', $pass);
+        $secret_key="i2b_solutions_dev";
+        #$password = hash('sha256', $pass,False);
+        $password = hash_hmac('sha256', $pass,$secret_key);
         $this->pass = $password;
     }
     public function getId_type()
@@ -97,8 +99,8 @@ class User extends Conexion
     //-------------------------------------------------------------------------------- Funciones --------------------------------------------------------------------------------//
 public function saveUsr($empleo)
     {
-        $query = "INSERT INTO user (id_user,user,password,name,id_type,created_at)
-                  values(NULL,'" . $this->user . "','" . $this->pass . "','" . $this->name . "','$empleo',NOW());";
+        $query = "INSERT INTO user (id,user,password,name,id_type,created_at)
+                  values(NULL,'" . $this->user . "','" . $this->pass . "','" . $this->name . "',$empleo,NOW());";
         $save = $this->db->query($query);
         $_SESSION['mensaje'] = $this->db->error;
         if ($save == true) {
@@ -112,7 +114,7 @@ public function saveUsr($empleo)
             $respon = array();
             $respon['error']='true';
             $respon['message']='¡Usuario Error al guardar, verifica la información proporcionada e intenta de nuevo!';
-            $respon['request']="";
+            $respon['request']=$this->db->error;
             return $respon;
             return false;
         }
