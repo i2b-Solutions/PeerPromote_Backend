@@ -9,11 +9,13 @@ deny from all
   # Redirect to the public folder
   RewriteEngine On
   # RewriteBase /
-  RewriteRule ^$ public/ [L]
-  RewriteRule (.*) public/$1 [L]
+  #RewriteRule ^$ public/ [L]
+  #RewriteRule (.*) public/$1 [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ index.php [QSA,L]
 
   # Redirect to HTTPS
   # RewriteEngine On
   # RewriteCond %{HTTPS} off
-  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
