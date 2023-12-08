@@ -55,7 +55,7 @@
         }
     },
     "scripts": {
-        "start": "php -S 208.109.40.16:3434 -t public",
+        "start": "php -S palma-net.com:3434 -t public",
         "test": "phpunit"
     }
 }
