@@ -62,7 +62,7 @@ return function (App $app) {
     $app->post('/user/register',function(Request $request, Response $response)use($app){
         #obtengo las variables y sus datos
         
-        $data = $request->getParsedBody();
+        $data = $request->getQueryParams();
         $response->getBody()->write(json_encode($data));
                         return $response;
         $email='';
