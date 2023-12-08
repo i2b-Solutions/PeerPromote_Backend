@@ -70,7 +70,7 @@ register_shutdown_function($shutdownHandler);
 
 // Add Routing Middleware
 //$app->addRoutingMiddleware();
-$app->setBasePath('PeerPromote_Backend/application');
+$app->setBasePath('/PeerPromote_Backend/application');
 
 // Add Body Parsing Middleware
 //$app->addBodyParsingMiddleware();
