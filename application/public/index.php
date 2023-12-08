@@ -73,11 +73,11 @@ register_shutdown_function($shutdownHandler);
 $app->setBasePath('/application');
 
 // Add Body Parsing Middleware
-$app->addBodyParsingMiddleware();
+//$app->addBodyParsingMiddleware();
 
 // Add Error Middleware
-$errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, $logError, $logErrorDetails);
-$errorMiddleware->setDefaultErrorHandler($errorHandler);
+//$errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, $logError, $logErrorDetails);
+//$errorMiddleware->setDefaultErrorHandler($errorHandler);
 
 // Run App & Emit Response
 $response = $app->handle($request);
