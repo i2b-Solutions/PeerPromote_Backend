@@ -69,7 +69,8 @@ $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDet
 register_shutdown_function($shutdownHandler);
 
 // Add Routing Middleware
-$app->addRoutingMiddleware();
+//$app->addRoutingMiddleware();
+$app->setBasePath('/application');
 
 // Add Body Parsing Middleware
 $app->addBodyParsingMiddleware();
