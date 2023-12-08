@@ -73,7 +73,7 @@ register_shutdown_function($shutdownHandler);
 $app->setBasePath('/PeerPromote_Backend/application');
 
 // Add Body Parsing Middleware
-//$app->addBodyParsingMiddleware();
+$app->addBodyParsingMiddleware();
 
 // Add Error Middleware
 $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, $logError, $logErrorDetails);
