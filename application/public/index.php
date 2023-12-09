@@ -69,8 +69,8 @@ $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDet
 register_shutdown_function($shutdownHandler);
 
 // Add Routing Middleware
-$app->addRoutingMiddleware();
 $app->setBasePath('/PeerPromote_Backend/application');
+$app->addRoutingMiddleware();
 
 // Add Body Parsing Middleware
 $app->addBodyParsingMiddleware();
