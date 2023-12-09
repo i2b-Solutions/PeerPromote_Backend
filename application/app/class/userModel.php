@@ -160,7 +160,7 @@ public function login()
                    
                     $respon = array();
                     $respon['error']='True';
-                    $respon['message']='Error al iniciar sesion consulte con su proveedor';
+                    $respon['message']='Error al iniciar sesion consulte con su proveedor.'.$this->db->error;;
                     $respon['request']=$ListUser;
                     return $respon;
                 }
