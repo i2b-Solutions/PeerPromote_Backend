@@ -139,7 +139,6 @@ public function login()
 
         if ($selectall1->num_rows != 0 ) {
             foreach ($ListUser as $key) {
-                if ($key['estado'] == 'Activo') {
                     session_start();
                     $_SESSION['logged-in'] = true;
                     $_SESSION['User'] = $key['user'];
@@ -148,29 +147,23 @@ public function login()
                     $_SESSION['tiempo'] = time();
                     $_SESSION['acceso'] = '';
                     
-                    $respon = array();
-                    $respon['error']='false';
-                    $respon['message']='Bienvenido de nuevo.';
-                    $respon['request']=$ListUser;
-                    return $respon;
-                }else {
-                    session_start();
-                    $_SESSION['logged-in'] = false;
-                    $_SESSION['tiempo'] = 0;
-                   
-                    $respon = array();
-                    $respon['error']='True';
-                    $respon['message']='Error al iniciar sesion consulte con su proveedor.'.$this->db->error;;
-                    $respon['request']=$ListUser;
-                    return $respon;
-                }
-            }
-            return true;
+                  
+           
+            } 
+            $respon = array();
+            $respon['error']='false';
+            $respon['message']='Bienvenido de nuevo.';
+            $respon['request']=$ListUser;
+            return $respon;
         } else {
             session_start();
             $_SESSION['logged-in'] = false;
             $_SESSION['tiempo'] = 0;
-            return false;
+            $respon = array();
+            $respon['error']=True;
+            $respon['message']='Error al iniciar sesion consulte con su proveedor.'.$this->db->error;;
+            $respon['request']=$ListUser;
+            return $respon;
         }
     }
 public function save($empleo)
