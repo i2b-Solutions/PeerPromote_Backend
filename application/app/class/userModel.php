@@ -133,7 +133,7 @@ public function saveUsr($empleo)
     }
 public function login()
     {
-        $query1 = "SELECT u.*, tu.type as tipo, a.id_perfil FROM user u INNER JOIN type tu ON tu.id_type=u.id_type LEFT JOIN perfil a ON u.id_user=a.id_user WHERE u.user='" . $this->user . "' AND u.pass='" . $this->pass . "'";
+        $query1 = "SELECT u.*, tu.type as tipo FROM user u INNER JOIN type tu ON tu.id=u.id_type WHERE u.user='" . $this->user . "' AND u.pass='" . $this->pass . "'";
         $selectall1 = $this->db->query($query1);
         $ListUser = $selectall1->fetch_all(MYSQLI_ASSOC);
 
@@ -143,16 +143,26 @@ public function login()
                     session_start();
                     $_SESSION['logged-in'] = true;
                     $_SESSION['User'] = $key['user'];
-                    $_SESSION['id_user'] = $key['id_user'];
+                    $_SESSION['id_user'] = $key['id'];
                     $_SESSION['tipo'] = $key['id_type'];
-                    $_SESSION['id_perfil'] = $key['id_perfil'];
                     $_SESSION['tiempo'] = time();
                     $_SESSION['acceso'] = '';
+                    
+                    $respon = array();
+                    $respon['error']='false';
+                    $respon['message']='Bienvenido de nuevo.';
+                    $respon['request']=$ListUser;
+                    return $respon;
                 }else {
                     session_start();
                     $_SESSION['logged-in'] = false;
                     $_SESSION['tiempo'] = 0;
-                    return false;
+                   
+                    $respon = array();
+                    $respon['error']='True';
+                    $respon['message']='Error al iniciar sesion consulte con su proveedor';
+                    $respon['request']=$ListUser;
+                    return $respon;
                 }
             }
             return true;
