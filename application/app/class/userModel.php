@@ -133,7 +133,7 @@ public function saveUsr($empleo)
     }
 public function login()
     {
-        $query1 = "SELECT u.*, tu.type as tipo FROM user u INNER JOIN type tu ON tu.id=u.id_type WHERE u.user='" . $this->user . "' AND u.password='" . $this->pass . "'";
+        $query1 = "SELECT u.*, tu.tipo FROM user u INNER JOIN user_type tu ON tu.id=u.id_type WHERE u.user='" . $this->user . "' AND u.password='" . $this->pass . "'";
         $selectall1 = $this->db->query($query1);
         $ListUser = $selectall1->fetch_all(MYSQLI_ASSOC);
 
