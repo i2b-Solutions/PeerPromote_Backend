@@ -219,4 +219,59 @@ return function (App $app) {
              }
         });
     //------------------------------------------------------------------------------------------//
+    $app->get('/datasocial',function(Request $request, Response $response)use($app){
+        try {
+            $ch = curl_init();
+
+            $headers = array(
+                'query: socialblade',
+                'history: default',
+                'clientid: cli_5c5ad4a1d817cf48a0287ad8',
+                'token: ac783f848a0f8aa8e410adeab3762b4013edd7603793595cbca7aaf8b3d904858d0d9fb0b8670c250eeba7f9f5ff40cae7f31d275de27b7a136ca3b4f75b59c1'
+            );
+
+            $options = array(
+                CURLOPT_URL => 'https://matrix.sbapis.com/b/youtube/statistics',
+                CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+            );
+
+            curl_setopt_array($ch, $options);
+
+            $responcurl = curl_exec($ch);
+
+            if (curl_errno($ch)) {
+                echo 'Error: ' . curl_error($ch);
+            }
+
+            curl_close($ch);
+            
+            $data=json_decode($responcurl);
+            //$data['Headers']= $app->response->headers['Content-type'] ;
+            //$app->response->setStatus(201);
+                if (!empty($data)) {
+                    http_response_code(200);
+                    $respon['success']='true';
+                    $respon['data']=$data;
+                    //echo json_encode($respon);
+                    $response->getBody()->write(json_encode($respon));
+            return $response;
+             //   echo $response->withJson($respon,201);  //imprime un json con status 200: OK CREATED
+                }
+        }catch (Exception $e){
+    
+        http_response_code(401);
+    
+       $respon= array(
+            "message" => "Access denied.",
+            "error" => $e->getMessage()
+        );
+        echo json_encode($respon);
+     //echo $response->withJson($respon,401);
+    
+         }
+    });
+
+    //------------------------------------------------------------------------------------------//
 };
