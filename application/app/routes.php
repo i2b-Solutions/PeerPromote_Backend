@@ -77,9 +77,9 @@ return function (App $app) {
                                           
                 $user=$data['user'];
                 $type='2';
-                if ($data['name'] !="") {
+                if ($data['isCompany'] !="") {
                                           
-                    $name=$data['name'];
+                    $isCompany=$data['isCompany'];
                     if ($data['pass'] !="") {   
                         $pass=$data['pass'];
                     }else{
@@ -97,7 +97,7 @@ return function (App $app) {
                     $respon = array();
                     $respon['status']=401;
                     $respon['error']='true';
-                    $respon['message']='Failed to receive name request';
+                    $respon['message']='Failed to receive COMPANY request';
                     $response->getBody()->write(json_encode($respon));
                     return $response;
                 }
@@ -124,10 +124,10 @@ return function (App $app) {
                                                            
             $user_request = new User();
             $user_request->setEmail($email);
-            $user_request->setUser($user);
-            $user_request->setPass($pass);
-            $user_request->setName($name);
-            $data=$user_request->saveUsr(2);
+            $user_request->setUsername($user);
+            $user_request->setPasswordHash($pass);
+            $user_request->setIsCompany($isCompany);
+            $data=$user_request->saveUsr();
             $respon=array();
             //$data['Headers']= $app->response->headers['Content-type'] ;
             //$app->response->setStatus(201);
@@ -192,7 +192,7 @@ return function (App $app) {
                 $user_request = new User();
                 $user_request->setUser($user);
                 $user_request->setPass($pass);
-                $data=$user_request->login(2);
+                $data=$user_request->login_auth();
                 $respon=array();
                 //$data['Headers']= $app->response->headers['Content-type'] ;
                 //$app->response->setStatus(201);

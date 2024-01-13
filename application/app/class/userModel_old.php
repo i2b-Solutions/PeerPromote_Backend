@@ -2,50 +2,50 @@
 
 require_once "config/conexion.php";
 //* nuevos campos 
-// UserID	UserUsername	PasswordHashwordHash	Email	Blocked	IsCompany
+// UserID	Username	PasswordHash	Email	Blocked	IsCompany
 class User extends Conexion
 {
-    private $UserID;
-    private $Username;
+    private $id_user;
+    private $name;
     private $user;
-    private $PasswordHash;
+    private $pass;
     private $email;
-    private $isCompany;
-    private $Blocked;
+    private $id_type;
+    private $estado;
 
     public function __construct()
     {
         parent::__construct(); //Llamada al constructor de la clase padre
 
-        $this->UserID = "";
-        $this->Username = "";
+        $this->id_user = "";
+        $this->name = "";
         $this->user = "";
-        $this->PasswordHash = "";
+        $this->pass = "";
         $this->email = "";
-        $this->isCompany = "";
-        $this->Blocked = "";
+        $this->id_type = "";
+        $this->estado = "";
     }
 
 
 
-    public function getUserID()
+    public function getId_user()
     {
-        return $this->UserID;
+        return $this->id_user;
     }
 
-    public function setUserID($id)
+    public function setId_user($id)
     {
-        $this->UserID = $id;
+        $this->id_user = $id;
     }
 
-    public function getUsername()
+    public function getName()
     {
-        return $this->Username;
+        return $this->name;
     }
 
-    public function setUsername($Username)
+    public function setName($name)
     {
-        $this->Username = $Username;
+        $this->name = $name;
     }
 
     public function getUser()
@@ -58,26 +58,26 @@ class User extends Conexion
         $this->user = $user;
     }
 
-    public function getPasswordHash()
+    public function getPass()
     {
-        return $this->PasswordHash;
+        return $this->pass;
     }
 
-    public function setPasswordHash($PasswordHash)
+    public function setPass($pass)
     {
         $secret_key="i2b_solutions_dev";
-        #$PasswordHashword = hash('sha256', $PasswordHash,False);
-        $PasswordHashword = hash_hmac('sha256', $PasswordHash,$secret_key);
-        $this->PasswordHash = $PasswordHashword;
+        #$password = hash('sha256', $pass,False);
+        $password = hash_hmac('sha256', $pass,$secret_key);
+        $this->pass = $password;
     }
-    public function getIsCompany()
+    public function getId_type()
     {
-        return $this->isCompany;
+        return $this->id_type;
     }
 
-    public function setIsCompany($isCompany)
+    public function setId_type($id_type)
     {
-        $this->isCompany = $isCompany;
+        $this->id_type = $id_type;
     }
 
     public function getEmail()
@@ -89,20 +89,20 @@ class User extends Conexion
     {
         $this->email = $email;
     }
-    public function getBlocked()
+    public function getEstado()
     {
-        return $this->Blocked;
+        return $this->estado;
     }
 
-    public function setBlocked($Blocked)
+    public function setEstado($estado)
     {
-        $this->Blocked = $Blocked;
+        $this->estado = $estado;
     }
     //-------------------------------------------------------------------------------- Funciones --------------------------------------------------------------------------------//
-public function saveUsr()
+public function saveUsr($empleo)
     {
-        $query = "INSERT INTO user (UserID,PasswordHashword,Username,isCompany,created_at)
-                  values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "'," . $this->isCompany . ",NOW());";
+        $query = "INSERT INTO user (id,user,password,name,id_type,created_at)
+                  values(NULL,'" . $this->user . "','" . $this->pass . "','" . $this->name . "',$empleo,NOW());";
         $save = $this->db->query($query);
         $_SESSION['mensaje'] = $this->db->error;
         if ($save == true) {
@@ -123,7 +123,7 @@ public function saveUsr()
     }
     public function updateUsr($empleo)
     {
-        $query = "UPDATE user SET Username='" . $this->Username . "',isCompany= '$empleo' WHERE UserID = $this->UserID;";
+        $query = "UPDATE user SET user = '" . $this->user . "',name='" . $this->name . "',id_type= '$empleo' WHERE id_user = $this->id_user;";
         $save = $this->db->query($query);
         $_SESSION['mensaje'] = $this->db->error;
         if ($save == true) {
@@ -135,7 +135,7 @@ public function saveUsr()
     }
 public function login()
     {
-        $query1 = "SELECT u.*, tu.tipo FROM user u INNER JOIN user_type tu ON tu.id=u.isCompany WHERE u.user='" . $this->user . "' AND u.PasswordHashword='" . $this->PasswordHash . "'";
+        $query1 = "SELECT u.*, tu.tipo FROM user u INNER JOIN user_type tu ON tu.id=u.id_type WHERE u.user='" . $this->user . "' AND u.password='" . $this->pass . "'";
         $selectall1 = $this->db->query($query1);
         $ListUser = $selectall1->fetch_all(MYSQLI_ASSOC);
 
@@ -144,8 +144,8 @@ public function login()
                     session_start();
                     $_SESSION['logged-in'] = true;
                     $_SESSION['User'] = $key['user'];
-                    $_SESSION['UserID'] = $key['id'];
-                    $_SESSION['tipo'] = $key['isCompany'];
+                    $_SESSION['id_user'] = $key['id'];
+                    $_SESSION['tipo'] = $key['id_type'];
                     $_SESSION['tiempo'] = time();
                     $_SESSION['acceso'] = '';
                     
@@ -170,8 +170,8 @@ public function login()
     }
 public function save($empleo)
     {
-        $query = "INSERT INTO user (UserID,user,PasswordHash,IsCompany,email,created_at)
-              values(NULL,'" . $this->Username . "','" . $this->PasswordHash . "'," . $this->isCompany . ",'" . $this->email . "',NOW());";
+        $query = "INSERT INTO user (id_user,user,pass,id_type,email,created_at)
+              values(NULL,'" . $this->user . "','" . $this->pass . "',3,'" . $this->email . "',NOW());";
         $save = $this->db->query($query);
 
         $_SESSION['mensaje'] = $this->db->error;
@@ -186,7 +186,7 @@ public function save($empleo)
 
 public function delete()
     {
-        $query = "DELETE FROM user WHERE UserID='" . $this->UserID . "'";
+        $query = "DELETE FROM user WHERE id_user='" . $this->id_user . "'";
         $delete = $this->db->query($query);
         if ($delete == true) {
             return true;
@@ -198,7 +198,7 @@ public function delete()
 
     public function selectOne($codigo)
     {
-        $query = "SELECT * FROM user WHERE UserID=" . $codigo . "";
+        $query = "SELECT * FROM user WHERE id_user=" . $codigo . "";
         $selectall = $this->db->query($query);
         $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
         return $ListUser;
@@ -227,7 +227,7 @@ public function delete()
 
     public function updateStatus()
     {
-        $query = "UPDATE user SET Blocked='$this->Blocked' WHERE UserID=" . $this->UserID . "";
+        $query = "UPDATE user SET estado='$this->estado' WHERE id_user=" . $this->id_user . "";
         $delete = $this->db->query($query);
         if ($delete == true) {
             return true;
@@ -235,42 +235,5 @@ public function delete()
             return false;
         }
     }
-    //-----------------------------------------------------------------------------------//
-    
-public function login_auth()
-{
-    $query1 = "SELECT u.* FROM user u WHERE u.Username='" . $this->Username . "' AND u.PasswordHash='" . $this->PasswordHash . "'";
-    $selectall1 = $this->db->query($query1);
-    $ListUser = $selectall1->fetch_all(MYSQLI_ASSOC);
-
-    if ($selectall1->num_rows != 0 ) {
-        foreach ($ListUser as $key) {
-                session_start();
-                $_SESSION['logged-in'] = true;
-                $_SESSION['User'] = $key['Username'];
-                $_SESSION['UserID'] = $key['UserID'];
-                $_SESSION['tipo'] = $key['isCompany'];
-                $_SESSION['tiempo'] = time();
-                $_SESSION['acceso'] = '';
-                
-              
-       
-        } 
-        $respon = array();
-        $respon['error']='false';
-        $respon['message']='Bienvenido de nuevo.';
-        $respon['request']=$ListUser;
-        return $respon;
-    } else {
-        session_start();
-        $_SESSION['logged-in'] = false;
-        $_SESSION['tiempo'] = 0;
-        $respon = array();
-        $respon['error']=True;
-        $respon['message']='Error al iniciar sesion consulte con su proveedor.'.$this->db->error;;
-        $respon['request']=$ListUser;
-        return $respon;
-    }
-}
 
 }
