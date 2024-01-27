@@ -110,6 +110,7 @@ public function saveUsr()
             $respon['error']='false';
             $respon['message']='¡Usuario Creado con Exito!';
             $respon['request']="";
+            $respon['UserID']=$this->db->insert_id;
             return $respon;
         } else {
             
@@ -236,41 +237,113 @@ public function delete()
         }
     }
     //-----------------------------------------------------------------------------------//
+
+    public function login_auth()
+    {
+        $query1 = "SELECT u.* FROM user u WHERE u.Username='" . $this->Username . "' AND u.PasswordHashword='" . $this->PasswordHash . "'";
+        $selectall1 = $this->db->query($query1);
+        $ListUser = $selectall1->fetch_all(MYSQLI_ASSOC);
     
-public function login_auth()
-{
-    $query1 = "SELECT u.* FROM user u WHERE u.Username='" . $this->Username . "' AND u.PasswordHash='" . $this->PasswordHash . "'";
-    $selectall1 = $this->db->query($query1);
-    $ListUser = $selectall1->fetch_all(MYSQLI_ASSOC);
-
-    if ($selectall1->num_rows != 0 ) {
-        foreach ($ListUser as $key) {
-                session_start();
-                $_SESSION['logged-in'] = true;
-                $_SESSION['User'] = $key['Username'];
-                $_SESSION['UserID'] = $key['UserID'];
-                $_SESSION['tipo'] = $key['isCompany'];
-                $_SESSION['tiempo'] = time();
-                $_SESSION['acceso'] = '';
-                
-              
-       
-        } 
-        $respon = array();
-        $respon['error']='false';
-        $respon['message']='Bienvenido de nuevo.';
-        $respon['request']=$ListUser;
-        return $respon;
-    } else {
-        session_start();
-        $_SESSION['logged-in'] = false;
-        $_SESSION['tiempo'] = 0;
-        $respon = array();
-        $respon['error']=True;
-        $respon['message']='Error al iniciar sesion consulte con su proveedor.'.$this->db->error;;
-        $respon['request']=$ListUser;
-        return $respon;
+        if ($selectall1->num_rows != 0 ) {
+            foreach ($ListUser as $key) {
+                    session_start();
+                    $_SESSION['logged-in'] = true;
+                    $_SESSION['User'] = $key['FullName'];
+                    $_SESSION['UserID'] = $key['UserID'];
+                    $_SESSION['tipo'] = $key['Phone'];
+                    $_SESSION['tiempo'] = time();
+                    $_SESSION['acceso'] = '';
+                    
+                  
+           
+            } 
+            $respon = array();
+            $respon['error']='false';
+            $respon['message']='Bienvenido de nuevo.';
+            $respon['request']=$ListUser;
+            return $respon;
+        } else {
+            session_start();
+            $_SESSION['logged-in'] = false;
+            $_SESSION['tiempo'] = 0;
+            $respon = array();
+            $respon['error']=True;
+            $respon['message']='Error al iniciar sesion consulte con su proveedor.'.$this->db->error;;
+            $respon['request']=$ListUser;
+            return $respon;
+        }
     }
-}
-
+//----------------------REGISTER STEP 1 -------------------------------------------/
+/* Username = users.Username
+Password = users.PasswordHash
+Edad= PersonalInformation.birthdate
+Pais = PersonalInformation.countryID
+Departamento = PersonalInformation.cityID
+Idioma = languages.personID--
+                Languages.IDlang */
+    public function register_step_one($birthdate,$city_id,$country_id)
+                {
+                    $query = "INSERT INTO Users (UserID,PasswordHashword,Usernamecreated_at)
+                              values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "',NOW());";
+                    $save = $this->db->query($query);
+                    $_SESSION['mensaje'] = $this->db->error;
+                    $userID = $this->db->insert_id;
+                    if ($save == true) {
+                        //GUARDAR LA INFORMACION PERSONAL DEL USUARIO REGISTRADO
+                        
+                    $queryPI = "INSERT INTO PersonalInformation(UserID, Birthdate, CityID,CountryID)
+                    values($userID,'" . $birthdate. "'," . $city_id . "," . $country_id . ");";
+                    $save_step1 = $this->db->query($queryPI);
+                    $_SESSION['mensaje'] = $this->db->error;
+                    $personalInfo=$this->db->insert_id;
+                        if ($save_step1 == true) {
+                        $respon = array();
+                        $respon['error']='false';
+                        $respon['message']='¡Excelente! Pasemos al siguiente';
+                        $respon['request']="";
+                        $respon['UserID']=$userID; 
+                        $respon['PersonID']=$personalInfo; 
+                        return $respon;
+                        }
+                    } else {
+                        
+                        $respon = array();
+                        $respon['error']='true';
+                        $respon['message']='¡Usuario Error al guardar, verifica la información proporcionada e intenta de nuevo!';
+                        $respon['request']=$this->db->error;
+                        return $respon;
+                        return false;
+                    }
+                }
+    //----------------------------------------------------------------------------------------------------------
+                public function register_step_two($PersonID,$phone,$ProfilePhotoImageFileName)
+                            {
+                                $query = "UPDATE Users SET Email='$this->email' WHERE UserID=" . $this->UserID . ";";
+                                $save = $this->db->query($query);
+                                $_SESSION['mensaje'] = $this->db->error;
+                                if ($save == true) {
+                                    //GUARDAR LA INFORMACION PERSONAL DEL USUARIO REGISTRADO
+                                    
+                                $queryPI = "UPDATE PersonalInformation SET Phone = '$phone',ProfilePhotoImageFileName='$ProfilePhotoImageFileName' WHERE PersonID=$PersonID ";
+                                $save_step1 = $this->db->query($queryPI);
+                                $_SESSION['mensaje'] = $this->db->error;
+                                    if ($save_step1 == true) {
+                                    $respon = array();
+                                    $respon['error']='false';
+                                    $respon['message']='¡Excelente! Pasemos al siguiente';
+                                    $respon['request']="";
+                                    $respon['UserID']=$this->UserID; 
+                                    $respon['PersonID']=$PersonID; 
+                                    return $respon;
+                                    }
+                                } else {
+                                    
+                                    $respon = array();
+                                    $respon['error']='true';
+                                    $respon['message']='¡Usuario Error al guardar, verifica la información proporcionada e intenta de nuevo!';
+                                    $respon['request']=$this->db->error;
+                                    return $respon;
+                                    return false;
+                                }
+                            }
 }

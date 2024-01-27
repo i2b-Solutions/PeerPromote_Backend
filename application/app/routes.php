@@ -19,7 +19,7 @@ return function (App $app) {
         $response->getBody()->write('Hello world!');
         return $response;
     });
-
+    
    /* $app->group('/users', function (Group $group) {
         $group->get('', ListUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
@@ -70,6 +70,19 @@ return function (App $app) {
         $user='';
         $pass='';
         $name='';
+        $UserID ="";
+        $FullName = ($data['FullName'] !="") ? $data['FullName'] : '';
+        $Birthday =  ($data['Birthday'] !="") ? $data['Birthday'] : null;
+        $CityID =  ($data['CityID'] !="") ? $data['CityID'] :  null;
+        $CountryID =  ($data['CountryID'] !="") ? $data['CountryID'] :  null;
+        $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
+        $DocumentFrontImageFileName =  ($data['DocumentFrontImageFileName'] !="") ? $data['DocumentFrontImageFileName'] : '';
+        $DocumentBackImageFileName =  ($data['DocumentBackImageFileName'] !="") ? $data['DocumentBackImageFileName'] : '';
+        $SelfieWithIDImageFileName =  ($data['SelfieWithIDImageFileName'] !="") ? $data['SelfieWithIDImageFileName'] : '';
+        $BillingAddress =  ($data['BillingAddress'] !="") ? $data['BillingAddress'] : '';
+        $Verified =  ($data['Verified'] !="") ? $data['Verified'] :  null;
+        $ProfilePhotoImageFileName =  ($data['ProfilePhotoImageFileName'] !="") ? $data['ProfilePhotoImageFileName'] : '';
+       
         if ($data['email'] !="") {
                                           
             $email=$data['email'];
@@ -132,12 +145,28 @@ return function (App $app) {
             //$data['Headers']= $app->response->headers['Content-type'] ;
             //$app->response->setStatus(201);
                 if (!empty($data)) {
+                        
+                $PI_request = new PersonalInformation();
+                $PI_request->setUserID($data['UserID']);
+                $PI_request->setFullName($FullName);
+                $PI_request->setBirthday($Birthday);
+                $PI_request->setCityID($CityID);
+                $PI_request->setCountryID($CountryID);
+                $PI_request->setPhone($Phone);
+                $PI_request->setDocumentFrontImageFileName($DocumentFrontImageFileName);
+                $PI_request->setDocumentBackImageFileName($DocumentBackImageFileName);
+                $PI_request->setSelfieWithIDImageFileName($SelfieWithIDImageFileName);
+                $PI_request->setBillingAddress($BillingAddress);
+                $PI_request->setVerified($Verified);
+                $PI_request->setProfilePhotoImageFileName($ProfilePhotoImageFileName);
+                $data_pi = $PI_request->save();
+                    if (!empty($data)) {
                     http_response_code(200);
                     $respon['success']='true';
-                    $respon['data']=$data;
+                    $respon['data']=$data_pi;
                     //echo json_encode($respon);
                     $response->getBody()->write(json_encode($respon));
-            return $response;
+                    return $response;}
              //   echo $response->withJson($respon,201);  //imprime un json con status 200: OK CREATED
                 }
         }catch (Exception $e){
@@ -272,6 +301,5 @@ return function (App $app) {
     
          }
     });
-
     //------------------------------------------------------------------------------------------//
 };

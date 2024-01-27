@@ -110,6 +110,7 @@ public function saveUsr($empleo)
             $respon['error']='false';
             $respon['message']='¡Usuario Creado con Exito!';
             $respon['request']="";
+            $respon['UserID']=$this->db->insert_id;
             return $respon;
         } else {
             
