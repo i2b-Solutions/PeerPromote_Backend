@@ -283,36 +283,50 @@ Idioma = languages.personID--
                 Languages.IDlang */
     public function register_step_one($birthdate,$city_id,$country_id)
                 {
-                    $query = "INSERT INTO Users (UserID,PasswordHashword,Usernamecreated_at)
-                              values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "',NOW());";
-                    $save = $this->db->query($query);
-                    $_SESSION['mensaje'] = $this->db->error;
-                    $userID = $this->db->insert_id;
-                    if ($save == true) {
-                        //GUARDAR LA INFORMACION PERSONAL DEL USUARIO REGISTRADO
-                        
-                    $queryPI = "INSERT INTO PersonalInformation(UserID, Birthdate, CityID,CountryID)
-                    values($userID,'" . $birthdate. "'," . $city_id . "," . $country_id . ");";
-                    $save_step1 = $this->db->query($queryPI);
-                    $_SESSION['mensaje'] = $this->db->error;
-                    $personalInfo=$this->db->insert_id;
-                        if ($save_step1 == true) {
-                        $respon = array();
-                        $respon['error']='false';
-                        $respon['message']='¡Excelente! Pasemos al siguiente';
-                        $respon['request']="";
-                        $respon['UserID']=$userID; 
-                        $respon['PersonID']=$personalInfo; 
-                        return $respon;
-                        }
-                    } else {
-                        
+                    $query = "SELECT COUNT(UserID) as cantidad FROM user WHERE Username='$this->Username'";
+                    $selectall = $this->db->query($query);
+                    $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
+                    foreach ($ListUser as $key) {
+                        $numRow=$key['cantidad'];
+                    }
+                    if ($numRow>=1) {
                         $respon = array();
                         $respon['error']='true';
-                        $respon['message']='¡Usuario Error al guardar, verifica la información proporcionada e intenta de nuevo!';
+                        $respon['message']='¡Usuario ya registrado!';
                         $respon['request']=$this->db->error;
                         return $respon;
-                        return false;
+                    }else{
+                        $query = "INSERT INTO Users (UserID,PasswordHashword,Username,created_at)
+                                values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "',NOW());";
+                        $save = $this->db->query($query);
+                        $_SESSION['mensaje'] = $this->db->error;
+                        $userID = $this->db->insert_id;
+                        if ($save == true) {
+                            //GUARDAR LA INFORMACION PERSONAL DEL USUARIO REGISTRADO
+                            
+                        $queryPI = "INSERT INTO PersonalInformation(UserID, Birthdate, CityID,CountryID)
+                        values($userID,'" . $birthdate. "'," . $city_id . "," . $country_id . ");";
+                        $save_step1 = $this->db->query($queryPI);
+                        $_SESSION['mensaje'] = $this->db->error;
+                        $personalInfo=$this->db->insert_id;
+                            if ($save_step1 == true) {
+                            $respon = array();
+                            $respon['error']='false';
+                            $respon['message']='¡Excelente! Pasemos al siguiente';
+                            $respon['request']="";
+                            $respon['UserID']=$userID; 
+                            $respon['PersonID']=$personalInfo; 
+                            return $respon;
+                            }
+                        } else {
+                            
+                            $respon = array();
+                            $respon['error']='true';
+                            $respon['message']='¡Usuario Error al guardar, verifica la información proporcionada e intenta de nuevo!';
+                            $respon['request']=$this->db->error;
+                            return $respon;
+                            #return false;
+                        }
                     }
                 }
     //----------------------------------------------------------------------------------------------------------
