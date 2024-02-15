@@ -191,4 +191,106 @@ return function (App $app) {
     
          }
     });
+    //---------------------------------STEP ONE VALIDATE---------------------------------------------------//
+    $app->post('/user/step_one',function(Request $request, Response $response)use($app){
+        #obtengo las variables y sus datos
+        $data = $request->getParsedBody();
+        
+        if ($data['user'] !="") {
+                                          
+            $user=$data['user'];
+            $type='2';
+        }else{
+            http_response_code(401);
+            $respon = array();
+            $respon['status']=401;
+            $respon['error']='true';
+            $respon['message']='Failed to receive user request';
+            $response->getBody()->write(json_encode($respon));
+            return $response;
+        }
+        $data = $request->getParsedBody();
+        #fin de obtencion de variables
+        try {
+                                                           
+            $user_request = new User();
+            $user_request->setUsername($user);
+            $dataUser=$user_request->validate_step_one();
+            $respon=array();
+            //$data['Headers']= $app->response->headers['Content-type'] ;
+            //$app->response->setStatus(201);
+                if (!empty($dataUser)) {
+                    if (!empty($data)) {
+                    http_response_code(200);
+                    $respon['success']='true';
+                    $respon['data']=$dataUser;
+                    //echo json_encode($respon);
+                    $response->getBody()->write(json_encode($respon));
+                    return $response;}
+             //   echo $response->withJson($respon,201);  //imprime un json con status 200: OK CREATED
+                }
+        }catch (Exception $e){
+    
+        http_response_code(401);
+    
+       $respon= array(
+            "message" => "Access denied.",
+            "error" => $e->getMessage()
+        );
+        echo json_encode($respon);
+     //echo $response->withJson($respon,401);
+    
+         }
+    });
+    //---------------------------------STEP TWO VALIDATE---------------------------------------------------//
+    $app->post('/user/step_two',function(Request $request, Response $response)use($app){
+        #obtengo las variables y sus datos
+        $data = $request->getParsedBody();
+        
+        if ($data['user'] !="") {
+                                          
+            $user=$data['user'];
+            $type='2';
+        }else{
+            http_response_code(401);
+            $respon = array();
+            $respon['status']=401;
+            $respon['error']='true';
+            $respon['message']='Failed to receive user request';
+            $response->getBody()->write(json_encode($respon));
+            return $response;
+        }
+        $data = $request->getParsedBody();
+        #fin de obtencion de variables
+        try {
+                                                           
+            $user_request = new User();
+            $user_request->setUsername($user);
+            $dataUser=$user_request->validate_step_one();
+            $respon=array();
+            //$data['Headers']= $app->response->headers['Content-type'] ;
+            //$app->response->setStatus(201);
+                if (!empty($dataUser)) {
+                    if (!empty($data)) {
+                    http_response_code(200);
+                    $respon['success']='true';
+                    $respon['data']=$dataUser;
+                    //echo json_encode($respon);
+                    $response->getBody()->write(json_encode($respon));
+                    return $response;}
+             //   echo $response->withJson($respon,201);  //imprime un json con status 200: OK CREATED
+                }
+        }catch (Exception $e){
+    
+        http_response_code(401);
+    
+       $respon= array(
+            "message" => "Access denied.",
+            "error" => $e->getMessage()
+        );
+        echo json_encode($respon);
+     //echo $response->withJson($respon,401);
+    
+         }
+    });
 };

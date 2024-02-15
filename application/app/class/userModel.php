@@ -360,4 +360,53 @@ Idioma = languages.personID--
                                     return false;
                                 }
                             }
+    // ----------------------------------------------------------------------------------------------------
+    public function validate_step_one()
+                {
+                    $query = "SELECT COUNT(UserID) as cantidad FROM user WHERE Username='$this->Username'";
+                    $selectall = $this->db->query($query);
+                    $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
+                    foreach ($ListUser as $key) {
+                        $numRow=$key['cantidad'];
+                    }
+                    if ($numRow>=1) {
+                        $respon = array();
+                        $respon['error']='false';
+                        $respon['register']=true;
+                        $respon['message']='¡Usuario ya registrado!';
+                        //$respon['request']=$this->db->error;
+                        return $respon;
+                    }else{
+                        $respon = array();
+                        $respon['error']='false';
+                        $respon['register']=false;
+                        $respon['message']='¡Usuario No registrado!';
+                        //$respon['request']=$this->db->error;
+                        return $respon;
+                    }
+                }
+    public function validate_step_two()
+                {
+                    $query = "SELECT COUNT(UserID) as cantidad FROM user WHERE Email='$this->email'";
+                    $selectall = $this->db->query($query);
+                    $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
+                    foreach ($ListUser as $key) {
+                        $numRow=$key['cantidad'];
+                    }
+                    if ($numRow>=1) {
+                        $respon = array();
+                        $respon['error']='false';
+                        $respon['register']=true;
+                        $respon['message']='¡Email ya registrado!';
+                        //$respon['request']=$this->db->error;
+                        return $respon;
+                    }else{
+                        $respon = array();
+                        $respon['error']='false';
+                        $respon['register']=false;
+                        $respon['message']='¡Email No registrado!';
+                        //$respon['request']=$this->db->error;
+                        return $respon;
+                    }
+                }
 }
