@@ -69,19 +69,10 @@ return function (App $app) {
         $email='';
         $user='';
         $pass='';
-        $name='';
-        $UserID ="";
-        $FullName = ($data['FullName'] !="") ? $data['FullName'] : '';
         $Birthdate =  (isset($data['Birthday']) ) ? $data['Birthday']['year'].'-'.$data['Birthday']['month'].'-'.$data['Birthday']['day'] : null;
         $CityID =  ($data['CityID'] !="") ? $data['CityID'] :  null;
         $CountryID =  ($data['CountryID'] !="") ? $data['CountryID'] :  null;
         $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
-        $DocumentFrontImageFileName =  ($data['DocumentFrontImageFileName'] !="") ? $data['DocumentFrontImageFileName'] : '';
-        $DocumentBackImageFileName =  ($data['DocumentBackImageFileName'] !="") ? $data['DocumentBackImageFileName'] : '';
-        $SelfieWithIDImageFileName =  ($data['SelfieWithIDImageFileName'] !="") ? $data['SelfieWithIDImageFileName'] : '';
-        $BillingAddress =  ($data['BillingAddress'] !="") ? $data['BillingAddress'] : '';
-        $Verified =  ($data['Verified'] !="") ? $data['Verified'] :  null;
-        $ProfilePhotoImageFileName =  ($data['ProfilePhotoImageFileName'] !="") ? $data['ProfilePhotoImageFileName'] : '';
        
         if ($data['email'] !="") {
                                           
@@ -149,6 +140,13 @@ return function (App $app) {
                     http_response_code(200);
                     $respon['success']=true;
                     $respon['data']=$data;
+                    /*
+                      {
+                        Username:
+                        url_photo
+                        UserID
+                      }
+                    */
                     //echo json_encode($respon);
                     $response->getBody()->write(json_encode($respon));
                     return $response;
