@@ -1,0 +1,22 @@
+{
+    "username": "davidsal",
+    "password": "dsma",
+    "confirmPassword": "dsma",
+    "countryId": "sv",
+    "stateId": 2,
+    "languages": [
+        {
+            "id": "en",
+            "name": "English"
+        }
+    ],
+    "birthdate": {
+        "day": 30,
+        "month": 11,
+        "year": 1995
+    },
+    "email": "dsma@zb.com",
+    "area": "502",
+    "phone": "45233728",
+    "selfie": {}
+}

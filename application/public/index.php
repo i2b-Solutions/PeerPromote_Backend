@@ -16,6 +16,7 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../app/class/userModel.php';
 require __DIR__ . '/../app/class/PersonalInformation.php';
 require __DIR__ . '/../app/class/languagesModel.php';
+require __DIR__ . '/../app/class/countriesModel.php';
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
 
@@ -50,6 +51,7 @@ $middleware($app);
 // Register routes
 $routes = require __DIR__ . '/../app/routes.php';
 $userRoutes = require __DIR__ . '/../app/routes/userRoutes.php';
+$userRoutes = require __DIR__ . '/../app/routes/countriesRoutes.php';
 $routes($app);
 $userRoutes($app);
 

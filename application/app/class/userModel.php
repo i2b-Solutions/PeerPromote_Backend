@@ -409,4 +409,47 @@ Idioma = languages.personID--
                         return $respon;
                     }
                 }
+    /* ---------------------------------------------------------------------------------------------*/
+    
+    public function register_step_three($birthdate,$city_id,$country_id,$phone)
+                {       /* OBTENER VALOR DE COUNTRIE */
+                            $query = "SELECT CountryID FROM Countries WHERE CountryISO='$country_id'";
+                            $selectall = $this->db->query($query);
+                            $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
+                            foreach ($ListUser as $key) {
+                                $CountryID=$key['CountryID'];
+                            }
+
+                        $query = "INSERT INTO Users (UserID,PasswordHash,Username,Email,created_at)
+                                values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "','" . $this->email . "',NOW());";
+                        $save = $this->db->query($query);
+                        $_SESSION['mensaje'] = $this->db->error;
+                        $userID = $this->db->insert_id;
+                        if ($save == true) {
+                            //GUARDAR LA INFORMACION PERSONAL DEL USUARIO REGISTRADO
+                            
+                        $queryPI = "INSERT INTO PersonalInformation(UserID, Birthdate, CityID,CountryID,Phone)
+                        values($userID,'" . $birthdate. "'," . $city_id . "," . $CountryID . ",'" . $phone. "');";
+                        $save_step1 = $this->db->query($queryPI);
+                        $_SESSION['mensaje'] = $this->db->error;
+                        $personalInfo=$this->db->insert_id;
+                            if ($save_step1 == true) {
+                            $respon = array();
+                            $respon['error']=false;
+                            $respon['message']='¡Usuario Registrado!';
+                            $respon['request']="";
+                            $respon['UserID']=$userID; 
+                            $respon['PersonID']=$personalInfo; 
+                            return $respon;
+                            }
+                        } else {
+                            
+                            $respon = array();
+                            $respon['error']='true';
+                            $respon['message']='¡Usuario Error al guardar, verifica la información proporcionada e intenta de nuevo!';
+                            $respon['request']=$this->db->error;
+                            return $respon;
+                            #return false;
+                        }
+                }
 }

@@ -72,7 +72,7 @@ return function (App $app) {
         $name='';
         $UserID ="";
         $FullName = ($data['FullName'] !="") ? $data['FullName'] : '';
-        $Birthday =  ($data['Birthday'] !="") ? $data['Birthday'] : null;
+        $Birthdate =  (isset($data['Birthday']) ) ? $data['Birthday']['year'].'-'.$data['Birthday']['month'].'-'.$data['Birthday']['day'] : null;
         $CityID =  ($data['CityID'] !="") ? $data['CityID'] :  null;
         $CountryID =  ($data['CountryID'] !="") ? $data['CountryID'] :  null;
         $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
@@ -139,36 +139,21 @@ return function (App $app) {
             $user_request->setEmail($email);
             $user_request->setUsername($user);
             $user_request->setPasswordHash($pass);
-            $user_request->setIsCompany($isCompany);
-            $data=$user_request->saveUsr();
+            $data=$user_request->register_step_three($Birthdate,$CityID,$CountryID,$Phone);
             $respon=array();
             //$data['Headers']= $app->response->headers['Content-type'] ;
             //$app->response->setStatus(201);
                 if (!empty($data)) {
                         
-                $PI_request = new PersonalInformation();
-                $PI_request->setUserID($data['UserID']);
-                $PI_request->setFullName($FullName);
-                $PI_request->setBirthday($Birthday);
-                $PI_request->setCityID($CityID);
-                $PI_request->setCountryID($CountryID);
-                $PI_request->setPhone($Phone);
-                $PI_request->setDocumentFrontImageFileName($DocumentFrontImageFileName);
-                $PI_request->setDocumentBackImageFileName($DocumentBackImageFileName);
-                $PI_request->setSelfieWithIDImageFileName($SelfieWithIDImageFileName);
-                $PI_request->setBillingAddress($BillingAddress);
-                $PI_request->setVerified($Verified);
-                $PI_request->setProfilePhotoImageFileName($ProfilePhotoImageFileName);
-                $data_pi = $PI_request->save();
-                    if (!empty($data)) {
+             
                     http_response_code(200);
-                    $respon['success']='true';
-                    $respon['data']=$data_pi;
+                    $respon['success']=true;
+                    $respon['data']=$data;
                     //echo json_encode($respon);
                     $response->getBody()->write(json_encode($respon));
-                    return $response;}
-             //   echo $response->withJson($respon,201);  //imprime un json con status 200: OK CREATED
+                    return $response;
                 }
+             //   echo $response->withJson($respon,201);  //imprime un json con status 200: OK CREATED
         }catch (Exception $e){
     
         http_response_code(401);
