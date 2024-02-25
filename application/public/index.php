@@ -51,9 +51,10 @@ $middleware($app);
 // Register routes
 $routes = require __DIR__ . '/../app/routes.php';
 $userRoutes = require __DIR__ . '/../app/routes/userRoutes.php';
-$userRoutes = require __DIR__ . '/../app/routes/countriesRoutes.php';
+$countriesRoutes = require __DIR__ . '/../app/routes/countriesRoutes.php';
 $routes($app);
 $userRoutes($app);
+$countriesRoutes($app);
 
 /** @var SettingsInterface $settings */
 $settings = $container->get(SettingsInterface::class);
