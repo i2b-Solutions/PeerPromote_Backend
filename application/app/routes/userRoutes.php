@@ -222,7 +222,7 @@ return function (App $app) {
                 if (!empty($dataUser)) {
                     if (!empty($data)) {
                     http_response_code(200);
-                    $respon['success']='true';
+                    $respon['success']=true;
                     $respon['data']=$dataUser;
                     //echo json_encode($respon);
                     $response->getBody()->write(json_encode($respon));
@@ -255,7 +255,7 @@ return function (App $app) {
             http_response_code(401);
             $respon = array();
             $respon['status']=401;
-            $respon['error']='true';
+            $respon['error']=true;
             $respon['message']='Failed to receive user request';
             $response->getBody()->write(json_encode($respon));
             return $response;

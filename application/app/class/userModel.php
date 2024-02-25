@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once "config/conexion.php";
 //* nuevos campos 
 // UserID	UserUsername	PasswordHashwordHash	Email	Blocked	IsCompany
@@ -434,12 +434,17 @@ Idioma = languages.personID--
                         $_SESSION['mensaje'] = $this->db->error;
                         $personalInfo=$this->db->insert_id;
                             if ($save_step1 == true) {
+                            
+                            $_SESSION['UserID']=$userID; 
+                            $_SESSION['PersonID']=$personalInfo; 
+                            $_SESSION['Username']=$this->Username; 
                             $respon = array();
                             $respon['error']=false;
                             $respon['message']='¡Usuario Registrado!';
                             $respon['request']="";
                             $respon['UserID']=$userID; 
                             $respon['PersonID']=$personalInfo; 
+                            $respon['Username']=$this->Username; 
                             return $respon;
                             }
                         } else {
