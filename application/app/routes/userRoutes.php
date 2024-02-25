@@ -246,9 +246,9 @@ return function (App $app) {
         #obtengo las variables y sus datos
         $data = $request->getParsedBody();
         
-        if ($data['user'] !="") {
+        if ($data['email'] !="") {
                                           
-            $user=$data['user'];
+            $user=$data['email'];
             $type='2';
         }else{
             http_response_code(401);
@@ -264,7 +264,7 @@ return function (App $app) {
         try {
                                                            
             $user_request = new User();
-            $user_request->setUsername($user);
+            $user_request->setEmail($user);
             $dataUser=$user_request->validate_step_two();
             $respon=array();
             //$data['Headers']= $app->response->headers['Content-type'] ;
