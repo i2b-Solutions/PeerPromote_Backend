@@ -209,7 +209,6 @@ return function (App $app) {
             $response->getBody()->write(json_encode($respon));
             return $response;
         }
-        $data = $request->getParsedBody();
         #fin de obtencion de variables
         try {
                                                            

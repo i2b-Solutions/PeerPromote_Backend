@@ -363,7 +363,7 @@ Idioma = languages.personID--
     // ----------------------------------------------------------------------------------------------------
     public function validate_step_one()
                 {
-                    $query = "SELECT COUNT(UserID) as cantidad FROM user WHERE Username='$this->Username'";
+                    $query = "SELECT COUNT(UserID) as cantidad FROM Users WHERE Username='$this->Username'";
                     $selectall = $this->db->query($query);
                     $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
                     foreach ($ListUser as $key) {
