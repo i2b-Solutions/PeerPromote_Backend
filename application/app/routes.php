@@ -81,7 +81,6 @@ return function (App $app) {
                                           
                 $user=$data['user'];
                 $type='2';
-                if ($data['isCompany'] !="") {
                                           
                     $isCompany=$data['isCompany'];
                     if ($data['pass'] !="") {   
@@ -95,16 +94,6 @@ return function (App $app) {
                         $response->getBody()->write(json_encode($respon));
                         return $response;
                     }
-                 
-                }else{
-                    http_response_code(401);
-                    $respon = array();
-                    $respon['status']=401;
-                    $respon['error']='true';
-                    $respon['message']='Failed to receive COMPANY request';
-                    $response->getBody()->write(json_encode($respon));
-                    return $response;
-                }
             }else{
                 http_response_code(401);
                 $respon = array();
