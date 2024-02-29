@@ -29,18 +29,19 @@ return function (App $app) {
                     $country_request->setCountryISO($objeto["iso2"]);
                     $dataUser=$country_request->save();
                 }
+           
             }                                            
             $respon=array();
             //$data['Headers']= $app->response->headers['Content-type'] ;
             //$app->response->setStatus(201);
                 if (!empty($dataUser)) {
-                    if (!empty($data)) {
                     http_response_code(200);
                     $respon['success']='true';
                     $respon['data']=$dataUser;
                     //echo json_encode($respon);
                     $response->getBody()->write(json_encode($respon));
-                    return $response;}
+                    return $response;
+
              //   echo $response->withJson($respon,201);  //imprime un json con status 200: OK CREATED
                 }
         }catch (Exception $e){
