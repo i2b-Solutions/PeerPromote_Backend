@@ -147,5 +147,50 @@ public function delete()
         $ListCountryISO = $selectall->fetch_all(MYSQLI_ASSOC);
         return $ListCountryISO;
     }
+    //-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    public function saveCity($CityID,$City)
+    {   
+        $query = "SELECT CityID FROM Cities WHERE CityID=" . $CityID . "";
+        $selectall = $this->db->query($query);
+        $ListCountryISO = $selectall->fetch_all(MYSQLI_ASSOC);
+        if(count($ListCountryISO)>0){
+            $query = "UPDATE Cities SET CountryID = '" . $this->CountryID. "',City='" . $City . "'WHERE CityID = $CityID;";
+            $save = $this->db->query($query);
+            $_SESSION['mensaje'] = $this->db->error;
+            if ($save == true) {
+                $respon = array();
+                $respon['error']='false';
+                $respon['request']="";
+                $respon['CountryID']=$this->db->insert_id;
+                return $respon;
+            } else {
+                $respon = array();
+                $respon['error']='true';
+                $respon['message']='¡Error al guardar Ciudad, verifica la información proporcionada e intenta de nuevo!';
+                $respon['request']=$this->db->error;
+                return $respon;
+            }
+        }else{
+        //----------------------------------------------------------------------------------------------------
+            $query = "INSERT INTO Cities (CityID,CountryID,City)
+                    values($CityID,$this->CountryID,'" . $City . "');";
+            $save = $this->db->query($query);
+            $_SESSION['mensaje'] = $this->db->error;
+            if ($save == true) {
+                $respon = array();
+                $respon['error']='false';
+                $respon['request']="";
+                $respon['CountryID']=$this->db->insert_id;
+                return $respon;
+            } else {
+                
+                $respon = array();
+                $respon['error']='true';
+                $respon['message']='¡Error al guardar Ciudad, verifica la información proporcionada e intenta de nuevo!';
+                $respon['request']=$this->db->error;
+                return $respon;
+            }
+        }
+    }
 
 }
