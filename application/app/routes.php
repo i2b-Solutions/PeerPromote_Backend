@@ -63,7 +63,6 @@ return function (App $app) {
         #obtengo las variables y sus datos
         
         $data = $request->getParsedBody();
-        echo $data;
         $response->getBody()->write(json_encode($data));
         return $response;
         $email='';
