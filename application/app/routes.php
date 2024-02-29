@@ -65,7 +65,7 @@ return function (App $app) {
         $data = $request->getParsedBody();
         
         $response->getBody()->write(json_encode($data));
-                        #return $response;
+        return $response;
         $email='';
         $user='';
         $pass='';
