@@ -81,7 +81,7 @@ return function (App $app) {
                 $user=$data['user'];
                 $type='2';
                                           
-                    $isCompany=$data['isCompany'];
+                    //$isCompany=$data['isCompany'];
                     if ($data['pass'] !="") {   
                         $pass=$data['pass'];
                     }else{
