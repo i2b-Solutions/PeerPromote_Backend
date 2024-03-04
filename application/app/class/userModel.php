@@ -438,7 +438,7 @@ Idioma = languages.personID--
                         /* OBTENER LENGUAJES */
                         for ($i=0; $i <  count($langs) ; $i++) { 
 
-                            $query = "SELECT IDLang FROM Langs WHERE Language='$langs[$i]'";
+                            $query = "SELECT IDLang FROM Langs WHERE Language='".$langs[$i]['lang']."'";
                             $selectall = $this->db->query($query);
                             $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
                             foreach ($ListUser as $key) {
