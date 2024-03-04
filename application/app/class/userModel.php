@@ -246,7 +246,6 @@ public function delete()
     
         if ($selectall1->num_rows != 0 ) {
             foreach ($ListUser as $key) {
-                    session_start();
                     $_SESSION['logged-in'] = true;
                     $_SESSION['User'] = $key['Username'];
                     $_SESSION['UserID'] = $key['UserID'];
