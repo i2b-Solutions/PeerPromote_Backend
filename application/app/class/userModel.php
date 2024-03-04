@@ -470,6 +470,7 @@ Idioma = languages.personID--
                             $respon['error']='true';
                             $respon['message']='¡Usuario Error al guardar, verifica la información proporcionada e intenta de nuevo!';
                             $respon['request']=$this->db->error;
+                            $respon['request2']=$langs;
                             return $respon;
                             #return false;
                         }
