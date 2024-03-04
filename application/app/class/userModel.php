@@ -248,9 +248,8 @@ public function delete()
             foreach ($ListUser as $key) {
                     session_start();
                     $_SESSION['logged-in'] = true;
-                    $_SESSION['User'] = $key['FullName'];
+                    $_SESSION['User'] = $key['Username'];
                     $_SESSION['UserID'] = $key['UserID'];
-                    $_SESSION['tipo'] = $key['Phone'];
                     $_SESSION['tiempo'] = time();
                     $_SESSION['acceso'] = '';
                     
