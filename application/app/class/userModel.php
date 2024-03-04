@@ -411,7 +411,7 @@ Idioma = languages.personID--
                 }
     /* ---------------------------------------------------------------------------------------------*/
     
-    public function register_step_three($birthdate,$city_id,$country_id,$phone)
+    public function register_step_three($birthdate,$city_id,$country_id,$phone,$langs)
                 {       /* OBTENER VALOR DE COUNTRIE */
                             $query = "SELECT CountryID FROM Countries WHERE CountryISO='$country_id'";
                             $selectall = $this->db->query($query);
@@ -433,6 +433,22 @@ Idioma = languages.personID--
                         $save_step1 = $this->db->query($queryPI);
                         $_SESSION['mensaje'] = $this->db->error;
                         $personalInfo=$this->db->insert_id;
+                        //------------------------------------------------------------------------------------------------------//
+                        
+                        /* OBTENER LENGUAJES */
+                        for ($i=0; $i <  count($langs) ; $i++) { 
+                            $query = "SELECT IDLang FROM Langs WHERE Language='$langs[$i]'";
+                            $selectall = $this->db->query($query);
+                            $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
+                            foreach ($ListUser as $key) {
+                                $lenguaje=$key['IDLang'];
+                                $queryLang = "INSERT INTO Languages(PersonID,IDLang)
+                                values($personalInfo," . $lenguaje. ");";
+                                $save_lang = $this->db->query($queryLang);
+                            }
+                            
+                        }
+                        //------------------------------------------------------------------------------------------------------//
                             if ($save_step1 == true) {
                             
                             $_SESSION['UserID']=$userID; 
