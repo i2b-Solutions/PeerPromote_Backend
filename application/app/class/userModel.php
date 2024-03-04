@@ -434,9 +434,10 @@ Idioma = languages.personID--
                         $_SESSION['mensaje'] = $this->db->error;
                         $personalInfo=$this->db->insert_id;
                         //------------------------------------------------------------------------------------------------------//
-                        
+                        print_r($langs);
                         /* OBTENER LENGUAJES */
                         for ($i=0; $i <  count($langs) ; $i++) { 
+
                             $query = "SELECT IDLang FROM Langs WHERE Language='$langs[$i]'";
                             $selectall = $this->db->query($query);
                             $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);

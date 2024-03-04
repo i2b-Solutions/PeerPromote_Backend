@@ -73,9 +73,9 @@ return function (App $app) {
         $CountryID =  ($data['CountryID'] !="") ? $data['CountryID'] :  null;
         $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
         $language = $data['languages'];
-        $response->getBody()->write(json_encode($data['languages']));
+       /*  $response->getBody()->write(json_encode($data['languages']));
         return $response;
-       
+        */
         if ($data['email'] !="") {
                                           
             $email=$data['email'];
