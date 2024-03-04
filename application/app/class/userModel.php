@@ -419,7 +419,8 @@ Idioma = languages.personID--
                             foreach ($ListUser as $key) {
                                 $CountryID=$key['CountryID'];
                             }
-
+                        
+                            print_r($langs);
                         $query = "INSERT INTO Users (UserID,PasswordHash,Username,Email,created_at)
                                 values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "','" . $this->email . "',NOW());";
                         $save = $this->db->query($query);
@@ -434,7 +435,6 @@ Idioma = languages.personID--
                         $_SESSION['mensaje'] = $this->db->error;
                         $personalInfo=$this->db->insert_id;
                         //------------------------------------------------------------------------------------------------------//
-                        print_r($langs);
                         /* OBTENER LENGUAJES */
                         for ($i=0; $i <  count($langs) ; $i++) { 
 
