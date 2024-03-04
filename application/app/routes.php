@@ -193,8 +193,8 @@ return function (App $app) {
             try {
                                                                
                 $user_request = new User();
-                $user_request->setUser($user);
-                $user_request->setPass($pass);
+                $user_request->setUsername($user);
+                $user_request->setPasswordHash($pass);
                 $data=$user_request->login_auth();
                 $respon=array();
                 //$data['Headers']= $app->response->headers['Content-type'] ;
