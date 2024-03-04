@@ -240,7 +240,7 @@ public function delete()
 
     public function login_auth()
     {
-        $query1 = "SELECT u.* FROM Users u WHERE u.Username='" . $this->Username . "' AND u.PasswordHash='" . $this->PasswordHash . "'";
+        $query1 = "SELECT u.Username, u.UserID FROM Users u WHERE u.Username='" . $this->Username . "' AND u.PasswordHash='" . $this->PasswordHash . "'";
         $selectall1 = $this->db->query($query1);
         $ListUser = $selectall1->fetch_all(MYSQLI_ASSOC);
     
