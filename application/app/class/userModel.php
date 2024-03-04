@@ -438,9 +438,9 @@ Idioma = languages.personID--
                         /* OBTENER LENGUAJES */
                         for ($i=0; $i <  count($langs) ; $i++) { 
 
-                            $query = "SELECT IDLang FROM Langs WHERE Language='".$langs[$i]['lang']."'";
-                            $selectall = $this->db->query($query);
-                            $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
+                            $queryL = "SELECT IDLang FROM Langs WHERE Language='".$langs[$i]['lang']."'";
+                            $selectallLan = $this->db->query($queryL);
+                            $ListUser = $selectallLan->fetch_all(MYSQLI_ASSOC);
                             foreach ($ListUser as $key) {
                                 $lenguaje=$key['IDLang'];
                                 $queryLang = "INSERT INTO Languages(PersonID,IDLang)
@@ -470,7 +470,7 @@ Idioma = languages.personID--
                             $respon['error']='true';
                             $respon['message']='¡Usuario Error al guardar, verifica la información proporcionada e intenta de nuevo!';
                             $respon['request']=$this->db->error;
-                            $respon['request2']=$langs;
+                            $respon['request2']=$langs[0]['lang'];
                             return $respon;
                             #return false;
                         }
