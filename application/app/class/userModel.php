@@ -409,7 +409,7 @@ Idioma = languages.personID--
                 }
     /* ---------------------------------------------------------------------------------------------*/
     
-    public function register_step_three($birthdate,$city_id,$country_id,$phone,$langs)
+    public function register_step_three($birthdate,$city_id,$country_id,$phone,$langs,$isCompany)
                 {       /* OBTENER VALOR DE COUNTRIE */
                             $query = "SELECT CountryID FROM Countries WHERE CountryISO='$country_id'";
                             $selectall = $this->db->query($query);
@@ -419,8 +419,8 @@ Idioma = languages.personID--
                             }
                         
                             print_r($langs);
-                        $query = "INSERT INTO Users (UserID,PasswordHash,Username,Email,created_at)
-                                values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "','" . $this->email . "',NOW());";
+                        $query = "INSERT INTO Users (UserID,PasswordHash,Username,Email,created_at,IsCompany)
+                                values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "','" . $this->email . "',NOW(),'".$isCompany."');";
                         $save = $this->db->query($query);
                         $_SESSION['mensaje'] = $this->db->error;
                         $userID = $this->db->insert_id;
@@ -473,5 +473,30 @@ Idioma = languages.personID--
                             return $respon;
                             #return false;
                         }
+                }
+
+                /*------------------------------------------------------------------------------------------------------------------------------------------------*/
+                //ProfilePhotoImageFileName
+                
+                public function upload_image($img)
+                {
+                    
+                    $query = "UPDATE PersonalInformation SET ProfilePhotoImageFileName='$img' WHERE UserID=" . $this->UserID . ";";
+                    $save = $this->db->query($query);
+                    if ($save==true) {
+                        $respon = array();
+                        $respon['error']=false;
+                        $respon['message']='Fotografía actualizada';
+                        $respon['img']=$img;
+                        //$respon['request']=$this->db->error;
+                        return $respon;
+                    }else{
+                        $respon = array();
+                        $respon['error']=true;
+                        $respon['register']=false;
+                        $respon['message']='Ocurrio un error';
+                        //$respon['request']=$this->db->error;
+                        return $respon;
+                    }
                 }
 }
