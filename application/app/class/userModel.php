@@ -261,7 +261,6 @@ public function delete()
             $respon['request']=$ListUser;
             return $respon;
         } else {
-            session_start();
             $_SESSION['logged-in'] = false;
             $_SESSION['tiempo'] = 0;
             $respon = array();
