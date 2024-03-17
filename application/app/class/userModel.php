@@ -136,7 +136,7 @@ public function saveUsr()
     }
 public function login()
     {
-        $query1 = "SELECT u.*, tu.tipo FROM user u INNER JOIN user_type tu ON tu.id=u.isCompany WHERE u.user='" . $this->user . "' AND u.PasswordHashword='" . $this->PasswordHash . "'";
+        $query1 = "SELECT u.*, tu.tipo FROM user u INNER JOIN user_type tu ON tu.id=u.sCompany WHERE u.user='" . $this->user . "' AND u.PasswordHashword='" . $this->PasswordHash . "'";
         $selectall1 = $this->db->query($query1);
         $ListUser = $selectall1->fetch_all(MYSQLI_ASSOC);
 
@@ -240,23 +240,23 @@ public function delete()
 
     public function login_auth()
     {
-        $query1 = "SELECT u.Username, u.UserID FROM Users u WHERE u.Username='" . $this->Username . "' AND u.PasswordHash='" . $this->PasswordHash . "'";
+        $query1 = "SELECT u.Username, u.UserID, u.IsCompany FROM Users u WHERE u.Username='" . $this->Username . "' AND u.PasswordHash='" . $this->PasswordHash . "'";
         $selectall1 = $this->db->query($query1);
         $ListUser = $selectall1->fetch_all(MYSQLI_ASSOC);
-    
+        $comany=False;
         if ($selectall1->num_rows != 0 ) {
             foreach ($ListUser as $key) {
-                    $_SESSION['logged-in'] = true;
+                    $_SESSION['logged-in'] = True;
                     $_SESSION['User'] = $key['Username'];
                     $_SESSION['UserID'] = $key['UserID'];
                     $_SESSION['tiempo'] = time();
                     $_SESSION['acceso'] = '';
-                    
-                  
-           
+                    $company =  ($key['IsCompany']==1) ? True : False;
             } 
             $respon = array();
             $respon['error']='false';
+            $respon['logged-in']=True;
+            $respon['IsCompany']=$company;
             $respon['message']='Bienvenido de nuevo.';
             $respon['request']=$ListUser;
             return $respon;
@@ -265,6 +265,7 @@ public function delete()
             $_SESSION['tiempo'] = 0;
             $respon = array();
             $respon['error']=True;
+            $respon['logged-in']=False;
             $respon['message']='Error al iniciar sesion consulte con su proveedor.'.$this->db->error;;
             $respon['request']=$ListUser;
             return $respon;
@@ -408,7 +409,7 @@ Idioma = languages.personID--
                 }
     /* ---------------------------------------------------------------------------------------------*/
     
-    public function register_step_three($birthdate,$city_id,$country_id,$phone,$langs,$isCompany)
+    public function register_step_three($birthdate,$city_id,$country_id,$phone,$langs)
                 {       /* OBTENER VALOR DE COUNTRIE */
                             $query = "SELECT CountryID FROM Countries WHERE CountryISO='$country_id'";
                             $selectall = $this->db->query($query);
@@ -419,7 +420,7 @@ Idioma = languages.personID--
                         
                             print_r($langs);
                         $query = "INSERT INTO Users (UserID,PasswordHash,Username,Email,created_at,IsCompany)
-                                values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "','" . $this->email . "',NOW(),'".$isCompany."');";
+                                values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "','" . $this->email . "',NOW(),'".$this->isCompany."');";
                         $save = $this->db->query($query);
                         $_SESSION['mensaje'] = $this->db->error;
                         $userID = $this->db->insert_id;
@@ -454,7 +455,7 @@ Idioma = languages.personID--
                             $_SESSION['PersonID']=$personalInfo; 
                             $_SESSION['Username']=$this->Username; 
                             $respon = array();
-                            $respon['error']=false;
+                            $respon['register']=True;
                             $respon['message']='¡Usuario Registrado!';
                             $respon['request']="";
                             $respon['UserID']=$userID; 
@@ -465,7 +466,7 @@ Idioma = languages.personID--
                         } else {
                             
                             $respon = array();
-                            $respon['error']='true';
+                            $respon['register']=False;
                             $respon['message']='¡Usuario Error al guardar, verifica la información proporcionada e intenta de nuevo!';
                             $respon['request']=$this->db->error;
                             $respon['request2']=$langs[0]['lang'];

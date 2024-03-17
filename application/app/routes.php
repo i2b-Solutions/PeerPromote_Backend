@@ -72,6 +72,7 @@ return function (App $app) {
         $CityID =  ($data['CityID'] !="") ? $data['CityID'] :  null;
         $CountryID =  ($data['CountryID'] !="") ? $data['CountryID'] :  null;
         $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
+        $IsCompany =  (isset($data['IsCompany'])) ? $data['IsCompany'] : 0;
         $language = $data['languages'];
        /*  $response->getBody()->write(json_encode($data['languages']));
         return $response;
@@ -126,6 +127,7 @@ return function (App $app) {
             $user_request->setEmail($email);
             $user_request->setUsername($user);
             $user_request->setPasswordHash($pass);
+            $user_request->setIsCompany($IsCompany);
             $data=$user_request->register_step_three($Birthdate,$CityID,$CountryID,$Phone,$language,0);
             $respon=array();
             //$data['Headers']= $app->response->headers['Content-type'] ;
