@@ -74,9 +74,9 @@ return function (App $app) {
         $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
         $IsCompany =  $data['IsCompany'];
         $language = $data['languages'];
-       /*  $response->getBody()->write(json_encode($data['languages']));
+        $response->getBody()->write(json_encode($data['IsCompany']));
         return $response;
-        */
+       
        /*  if (empty($uploadedFile['imagen']) || !isset($uploadedFile['imagen'])) {
             $uploadedFile=False;
         }else{
