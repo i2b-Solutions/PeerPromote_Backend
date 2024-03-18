@@ -56,7 +56,7 @@ $companiesRoutes = require __DIR__ . '/../app/routes/companiesRoutes.php';
 $routes($app);
 $userRoutes($app);
 $countriesRoutes($app);
-$companiesRoutes($app);
+//$companiesRoutes($app);
 
 /** @var SettingsInterface $settings */
 $settings = $container->get(SettingsInterface::class);
