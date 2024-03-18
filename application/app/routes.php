@@ -198,7 +198,7 @@ return function (App $app) {
     
        $respon= array(
             "message" => "Access denied.",
-            "errorMessage" => $e->getMessage(),
+            "error" => $e->getMessage(),
             "errorAuth" => true
         );
         $response->getBody()->write(json_encode($respon));
