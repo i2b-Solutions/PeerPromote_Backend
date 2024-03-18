@@ -469,7 +469,7 @@ Idioma = languages.personID--
                             $respon['register']=False;
                             $respon['message']='¡Usuario Error al guardar, verifica la información proporcionada e intenta de nuevo!';
                             $respon['request']=$this->db->error;
-                            $respon['request2']=$langs[0]['lang'];
+                            #$respon['request2']=$langs[0]['lang'];
                             return $respon;
                             #return false;
                         }
