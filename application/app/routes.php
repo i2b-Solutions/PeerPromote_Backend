@@ -128,7 +128,7 @@ return function (App $app) {
             $user_request->setUsername($user);
             $user_request->setPasswordHash($pass);
             $user_request->setIsCompany($IsCompany);
-            $data=$user_request->register_step_three($Birthdate,$CityID,$CountryID,$Phone,$language,0);
+            $data=$user_request->register_step_three($Birthdate,$CityID,$CountryID,$Phone,$language);
             $respon=array();
             //$data['Headers']= $app->response->headers['Content-type'] ;
             //$app->response->setStatus(201);
