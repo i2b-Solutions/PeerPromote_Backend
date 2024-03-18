@@ -457,7 +457,6 @@ Idioma = languages.personID--
                             $respon = array();
                             $respon['register']=True;
                             $respon['message']='¡Usuario Registrado!';
-                            $respon['request']="";
                             $respon['UserID']=$userID; 
                             $respon['PersonID']=$personalInfo; 
                             $respon['Username']=$this->Username; 
