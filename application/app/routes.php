@@ -61,7 +61,7 @@ return function (App $app) {
     //------------------------------------------------------------------------------------//
     $app->post('/user/register',function(Request $request, Response $response)use($app){
         #obtengo las variables y sus datos
-        $uploadedFile= $request->getUploadedFiles();
+       # $uploadedFile= $request->getUploadedFiles();
         $data = $request->getParsedBody();
       /*   $response->getBody()->write(json_encode($data));
         return $response; */
@@ -77,11 +77,11 @@ return function (App $app) {
        /*  $response->getBody()->write(json_encode($data['languages']));
         return $response;
         */
-        if (empty($uploadedFile['imagen']) || !isset($uploadedFile['imagen'])) {
+       /*  if (empty($uploadedFile['imagen']) || !isset($uploadedFile['imagen'])) {
             $uploadedFile=False;
         }else{
             $uploadedFile=$uploadedFile['imagen'];
-        }
+        } */
         if ($data['email'] !="") {
                                           
             $email=$data['email'];
@@ -133,7 +133,7 @@ return function (App $app) {
             //$data['Headers']= $app->response->headers['Content-type'] ;
             //$app->response->setStatus(201);
                 if (!empty($data)) {
-                        if ($uploadedFile!=false){
+                       /*  if ($uploadedFile!=false){
                             //subir imagen//
                             if ($uploadedFile->getError() === UPLOAD_ERR_OK && strpos($uploadedFile->getClientMediaType(), 'image') !== false) {
                                 $carpeta=__DIR__ . "/../public/picturesProfile";
@@ -150,11 +150,6 @@ return function (App $app) {
                                     //guardar ruta en la base de datos
                                     $user_request->setUserID($data['UserID']);
                                     $saveIMG = $user_request->upload_image($uploadedFile);
-                                    // Aquí puedes guardar la ruta de la imagen en la base de datos
-                                    //$respuesta = "Imagen subida correctamente.";
-                                    // Aquí puedes insertar la ruta de la imagen en tu base de datos MySQL
-                                    /* $response->getBody()->write($respuesta); */
-                                    //return $response->withStatus(200);
                                     $imgPath='';
                                     if ($saveIMG['error']==false){
                                         $imgPath=$saveIMG['img'];
@@ -175,7 +170,6 @@ return function (App $app) {
                                 $response->getBody()->write("El archivo enviado no es una imagen válida.");
                                 return $response->withStatus(400);
                             }  
-                    /*-----------------------------------------------------------*/
                     }else{
 
                         http_response_code(200);
@@ -183,7 +177,12 @@ return function (App $app) {
                         $respon['data']=$data;
                         $respon['img']='';
                         $response->getBody()->write(json_encode($respon));
-                    }
+                    } */
+                    http_response_code(200);
+                    $respon['success']=true;
+                    $respon['data']=$data;
+                    $respon['img']='';
+                    $response->getBody()->write(json_encode($respon));
                 }else{
 
                     http_response_code(500);
