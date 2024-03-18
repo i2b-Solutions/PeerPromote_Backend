@@ -184,6 +184,13 @@ return function (App $app) {
                         $respon['img']='';
                         $response->getBody()->write(json_encode($respon));
                     }
+                }else{
+
+                    http_response_code(500);
+                    $respon['success']=false;
+                    $respon['data']=$data;
+                    $respon['img']='';
+                    $response->getBody()->write(json_encode($respon));
                 }
              //   echo $response->withJson($respon,201);  //imprime un json con status 200: OK CREATED
         }catch (Exception $e){
