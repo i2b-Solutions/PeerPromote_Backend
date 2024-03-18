@@ -422,7 +422,7 @@ Idioma = languages.personID--
                         $query = "INSERT INTO Users (UserID,PasswordHash,Username,Email,created_at,IsCompany)
                                 values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "','" . $this->email . "',NOW(),".$this->isCompany.");";
                         $save = $this->db->query($query);
-                        $_SESSION['mensaje'] = $this->db->error;
+                        #$_SESSION['mensaje'] = $this->db->error;
                         $userID = $this->db->insert_id;
                         if ($save == true) {
                             //GUARDAR LA INFORMACION PERSONAL DEL USUARIO REGISTRADO

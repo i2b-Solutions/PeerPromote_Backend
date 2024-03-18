@@ -127,9 +127,9 @@ return function (App $app) {
             $user_request->setEmail($email);
             $user_request->setUsername($user);
             $user_request->setPasswordHash($pass);
-            $user_request->setIsCompany($IsCompany);
-            $data=$user_request->register_step_three($Birthdate,$CityID,$CountryID,$Phone,$language);
-            $respon=array("succes"=> "Access approved.",);
+           # $user_request->setIsCompany($IsCompany);
+           # $data=$user_request->register_step_three($Birthdate,$CityID,$CountryID,$Phone,$language);
+            $respon=array("succes"=> "Access approved.");
             //$data['Headers']= $app->response->headers['Content-type'] ;
             //$app->response->setStatus(201);
                    /*  http_response_code(200);
