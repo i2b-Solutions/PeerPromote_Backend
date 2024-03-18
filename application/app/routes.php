@@ -72,7 +72,7 @@ return function (App $app) {
         $CityID =  ($data['CityID'] !="") ? $data['CityID'] :  null;
         $CountryID =  ($data['CountryID'] !="") ? $data['CountryID'] :  null;
         $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
-        $IsCompany =  (isset($data['IsCompany'])) ? $data['IsCompany'] : 0;
+        $IsCompany =  $data['IsCompany'];
         $language = $data['languages'];
        /*  $response->getBody()->write(json_encode($data['languages']));
         return $response;
@@ -234,7 +234,7 @@ return function (App $app) {
                     http_response_code(401);
                     $respon = array();
                     $respon['status']=401;
-                    $respon['errorAuth']='true';
+                    $respon['errorAuth']=true;
                     $respon['message']='Failed to receive user request';
                     $response->getBody()->write(json_encode($respon));
                     return $response;
