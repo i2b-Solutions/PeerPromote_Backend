@@ -132,7 +132,12 @@ return function (App $app) {
             $respon=array();
             //$data['Headers']= $app->response->headers['Content-type'] ;
             //$app->response->setStatus(201);
-                if (!empty($data)) {
+                    http_response_code(200);
+                    $respon['success']=true;
+                    $respon['data']=$data;
+                    $respon['img']='';
+                    $response->getBody()->write(json_encode($respon));
+               // if (!empty($data)) {
                        /*  if ($uploadedFile!=false){
                             //subir imagen//
                             if ($uploadedFile->getError() === UPLOAD_ERR_OK && strpos($uploadedFile->getClientMediaType(), 'image') !== false) {
@@ -183,14 +188,14 @@ return function (App $app) {
                     $respon['data']=$data;
                     $respon['img']='';
                     $response->getBody()->write(json_encode($respon));
-                }else{
+                /* }else{
 
                     http_response_code(500);
                     $respon['success']=false;
                     $respon['data']=$data;
                     $respon['img']='';
                     $response->getBody()->write(json_encode($respon));
-                }
+                } */
              //   echo $response->withJson($respon,201);  //imprime un json con status 200: OK CREATED
         }catch (Exception $e){
     
