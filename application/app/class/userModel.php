@@ -418,7 +418,7 @@ Idioma = languages.personID--
                                 $CountryID=$key['CountryID'];
                             }
                         
-                            print_r($langs);
+                            #print_r($langs);
                         $query = "INSERT INTO Users (UserID,PasswordHash,Username,Email,created_at,IsCompany)
                                 values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "','" . $this->email . "',NOW(),".$this->isCompany.");";
                         $save = $this->db->query($query);
