@@ -201,7 +201,7 @@ return function (App $app) {
             "errorMessage" => $e->getMessage(),
             "errorAuth" => true
         );
-        echo json_encode($respon);
+        $response->getBody()->write(json_encode($respon));
      //echo $response->withJson($respon,401);
     
          }
