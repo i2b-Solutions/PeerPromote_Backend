@@ -420,7 +420,7 @@ Idioma = languages.personID--
                         
                             print_r($langs);
                         $query = "INSERT INTO Users (UserID,PasswordHash,Username,Email,created_at,IsCompany)
-                                values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "','" . $this->email . "',NOW(),'".$this->isCompany."');";
+                                values(NULL,'" . $this->PasswordHash . "','" . $this->Username . "','" . $this->email . "',NOW(),".$this->isCompany.");";
                         $save = $this->db->query($query);
                         $_SESSION['mensaje'] = $this->db->error;
                         $userID = $this->db->insert_id;
