@@ -183,11 +183,6 @@ return function (App $app) {
                         $respon['img']='';
                         $response->getBody()->write(json_encode($respon));
                     } */
-                    http_response_code(200);
-                    $respon['success']=true;
-                    $respon['data']=$data;
-                    $respon['img']='';
-                    $response->getBody()->write(json_encode($respon));
                 /* }else{
 
                     http_response_code(500);
