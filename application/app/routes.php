@@ -135,7 +135,6 @@ return function (App $app) {
                     http_response_code(200);
                     $respon['success']=true;
                     $respon['data']=$data;
-                    $respon['img']='';
                     $response->getBody()->write(json_encode($respon));
                // if (!empty($data)) {
                        /*  if ($uploadedFile!=false){
