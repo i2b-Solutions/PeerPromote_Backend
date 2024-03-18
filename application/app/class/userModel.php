@@ -428,7 +428,7 @@ Idioma = languages.personID--
                             //GUARDAR LA INFORMACION PERSONAL DEL USUARIO REGISTRADO
                             
                         $queryPI = "INSERT INTO PersonalInformation(UserID, Birthdate, CityID,CountryID,Phone)
-                        values($userID,'" . $birthdate. "'," . $city_id . "," . $CountryID . ",'" . $phone. "');";
+                        values($userID,'" .$birthdate. "'," . $city_id . "," . $CountryID . ",'" . $phone. "');";
                         $save_step1 = $this->db->query($queryPI);
                         $_SESSION['mensaje'] = $this->db->error;
                         $personalInfo=$this->db->insert_id;
@@ -437,7 +437,7 @@ Idioma = languages.personID--
                         for ($i=0; $i <  count($langs) ; $i++) { 
 
                             $queryL = "SELECT IDLang FROM LANGS WHERE Language='".$langs[$i]['lang']."'";
-                            echo $queryL;
+                            //echo $queryL;
                             $selectallLan = $this->db->query($queryL);
                             $ListUser = $selectallLan->fetch_all(MYSQLI_ASSOC);
                             foreach ($ListUser as $key) {
@@ -462,6 +462,15 @@ Idioma = languages.personID--
                             $respon['PersonID']=$personalInfo; 
                             $respon['Username']=$this->Username; 
                             return $respon;
+                            }else {
+                            
+                                $respon = array();
+                                $respon['register']=False;
+                                $respon['message']='¡Usuario Error al guardar Informacion Personal, verifica la información proporcionada e intenta de nuevo!';
+                                $respon['request']=$this->db->error;
+                                #$respon['request2']=$langs[0]['lang'];
+                                return $respon;
+                                #return false;
                             }
                         } else {
                             
