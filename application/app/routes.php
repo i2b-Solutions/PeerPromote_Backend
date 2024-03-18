@@ -74,8 +74,8 @@ return function (App $app) {
         $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
         $IsCompany =  $data['IsCompany'];
         $language = $data['languages'];
-        $response->getBody()->write(json_encode($data['IsCompany']));
-        return $response;
+      /*   $response->getBody()->write(json_encode($data['IsCompany']));
+        return $response; */
        
        /*  if (empty($uploadedFile['imagen']) || !isset($uploadedFile['imagen'])) {
             $uploadedFile=False;
@@ -134,7 +134,7 @@ return function (App $app) {
             //$app->response->setStatus(201);
                     http_response_code(200);
                     $respon['success']=true;
-                    $respon['data']=$data;
+                    #$respon['data']=$data;
                     $response->getBody()->write(json_encode($respon));
                // if (!empty($data)) {
                        /*  if ($uploadedFile!=false){
