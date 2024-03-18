@@ -449,11 +449,11 @@ Idioma = languages.personID--
                             
                         }
                         //------------------------------------------------------------------------------------------------------//
-                            if ($save_step1 == true) {
+                            if ($save_step1 == True) {
                             
-                            $_SESSION['UserID']=$userID; 
+                           /*  $_SESSION['UserID']=$userID; 
                             $_SESSION['PersonID']=$personalInfo; 
-                            $_SESSION['Username']=$this->Username; 
+                            $_SESSION['Username']=$this->Username;  */
                             $respon = array();
                             $respon['register']=True;
                             $respon['message']='¡Usuario Registrado!';

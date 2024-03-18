@@ -52,7 +52,7 @@ $middleware($app);
 $routes = require __DIR__ . '/../app/routes.php';
 $userRoutes = require __DIR__ . '/../app/routes/userRoutes.php';
 $countriesRoutes = require __DIR__ . '/../app/routes/countriesRoutes.php';
-$companiesRoutes = require __DIR__ . '/../app/routes/companiesRoutes.php';
+#$companiesRoutes = require __DIR__ . '/../app/routes/companiesRoutes.php';
 $routes($app);
 $userRoutes($app);
 $countriesRoutes($app);
