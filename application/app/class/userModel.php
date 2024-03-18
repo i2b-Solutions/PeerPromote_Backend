@@ -254,7 +254,7 @@ public function delete()
                     $company =  ($key['IsCompany']==1) ? True : False;
             } 
             $respon = array();
-            $respon['error']='false';
+            $respon['errorAuth']=false;
             $respon['logged-in']=True;
             $respon['IsCompany']=$company;
             $respon['message']='Bienvenido de nuevo.';
@@ -264,7 +264,7 @@ public function delete()
             $_SESSION['logged-in'] = false;
             $_SESSION['tiempo'] = 0;
             $respon = array();
-            $respon['error']=True;
+            $respon['errorAuth']=True;
             $respon['logged-in']=False;
             $respon['message']='Error al iniciar sesion consulte con su proveedor.'.$this->db->error;;
             $respon['request']=$ListUser;

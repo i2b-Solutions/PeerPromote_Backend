@@ -192,7 +192,8 @@ return function (App $app) {
     
        $respon= array(
             "message" => "Access denied.",
-            "error" => $e->getMessage()
+            "errorMessage" => $e->getMessage(),
+            "errorAuth" => true
         );
         echo json_encode($respon);
      //echo $response->withJson($respon,401);
@@ -217,7 +218,7 @@ return function (App $app) {
                             http_response_code(401);
                             $respon = array();
                             $respon['status']=401;
-                            $respon['error']='true';
+                            $respon['errorAuth']=true;
                             $respon['message']='Failed to receive  pass request';
                             $response->getBody()->write(json_encode($respon));
                             return $response;
@@ -227,7 +228,7 @@ return function (App $app) {
                     http_response_code(401);
                     $respon = array();
                     $respon['status']=401;
-                    $respon['error']='true';
+                    $respon['errorAuth']='true';
                     $respon['message']='Failed to receive user request';
                     $response->getBody()->write(json_encode($respon));
                     return $response;
@@ -257,7 +258,8 @@ return function (App $app) {
         
            $respon= array(
                 "message" => "Access denied.",
-                "error" => $e->getMessage()
+                "errorMessage" => $e->getMessage(),
+                "errorAuth" => true
             );
             echo json_encode($respon);
          //echo $response->withJson($respon,401);
