@@ -63,17 +63,17 @@ return function (App $app) {
         #obtengo las variables y sus datos
        # $uploadedFile= $request->getUploadedFiles();
         $data = $request->getParsedBody();
-      /*   $response->getBody()->write(json_encode($data));
-        return $response; */
-        $email='';
-        $user='';
-        $pass='';
+  /*    $response->getBody()->write(json_encode($data));
+        return $response;  */
+        $email=null;
+        $user=Null;
+        $pass=Null;
+        $IsCompany =  $data['IsCompany'];
         $Birthdate =  (isset($data['Birthday']) ) ? $data['Birthday']['year'].'-'.$data['Birthday']['month'].'-'.$data['Birthday']['day'] : null;
         $CityID =  ($data['CityID'] !="") ? $data['CityID'] :  null;
         $CountryID =  ($data['CountryID'] !="") ? $data['CountryID'] :  null;
         $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
-        $IsCompany =  $data['IsCompany'];
-        $language = $data['languages'];
+        $language = $data['languages[]']; 
         /* $response->getBody()->write(json_encode($data));
         return $response;  */
        
@@ -82,7 +82,7 @@ return function (App $app) {
         }else{
             $uploadedFile=$uploadedFile['imagen'];
         } */
-        if ($data['email'] !="") {
+        if (isset($data['email'])) {
                                           
             $email=$data['email'];
             if ($data['user'] !="") {
@@ -123,19 +123,20 @@ return function (App $app) {
         #fin de obtencion de variables
         try {
             /*-----------------------*/                                                           
-            $user_request = new User();
+             $user_request = new User();
             $user_request->setEmail($email);
             $user_request->setUsername($user);
-            $user_request->setPasswordHash($pass);
+            $user_request->setPasswordHash($pass); 
             $user_request->setIsCompany($IsCompany);
             $data=$user_request->register_step_three($Birthdate,$CityID,$CountryID,$Phone,$language);
             $respon=array();
             //$data['Headers']= $app->response->headers['Content-type'] ;
             //$app->response->setStatus(201);
                     http_response_code(200);
-                    $respon['success']=true;
-                    $respon['data']=$data; 
-                    $response->getBody()->write(json_encode($respon));
+                    $respon['success']='true';
+                    #$respon['data']=$data; 
+                    $response->getBody()->write(json_encode($data));
+                    return $response; 
                // if (!empty($data)) {
                        /*  if ($uploadedFile!=false){
                             //subir imagen//
@@ -198,7 +199,7 @@ return function (App $app) {
        $respon= array(
             "message" => "Access denied.",
             "error" => $e->getMessage(),
-            "errorAuth" => true
+            "errorAuth" => 'true'
         );
         $response->getBody()->write(json_encode($respon));
      //echo $response->withJson($respon,401);
