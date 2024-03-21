@@ -455,7 +455,7 @@ Idioma = languages.personID--
                             $_SESSION['PersonID']=$personalInfo; 
                             $_SESSION['Username']=$this->Username;  */
                             $respon = array();
-                            $respon['register']=True;
+                            $respon['register']=true;
                             $respon['message']='¡Usuario Registrado!';
                             $respon['UserID']=$userID; 
                             $respon['PersonID']=$personalInfo; 
@@ -464,7 +464,7 @@ Idioma = languages.personID--
                             }else {
                             
                                 $respon = array();
-                                $respon['register']=False;
+                                $respon['register']=false;
                                 $respon['message']='¡Usuario Error al guardar Informacion Personal, verifica la información proporcionada e intenta de nuevo!';
                                 $respon['request']=$this->db->error;
                                 #$respon['request2']=$langs[0]['lang'];

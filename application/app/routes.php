@@ -74,8 +74,8 @@ return function (App $app) {
         $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
         $IsCompany =  $data['IsCompany'];
         $language = $data['languages'];
-        $response->getBody()->write(json_encode($data));
-        return $response; 
+        /* $response->getBody()->write(json_encode($data));
+        return $response;  */
        
        /*  if (empty($uploadedFile['imagen']) || !isset($uploadedFile['imagen'])) {
             $uploadedFile=False;
@@ -132,9 +132,9 @@ return function (App $app) {
             $respon=array();
             //$data['Headers']= $app->response->headers['Content-type'] ;
             //$app->response->setStatus(201);
-                   /*  http_response_code(200);
-                    $respon['success']=True;
-                    $respon['data']=$data; */
+                    http_response_code(200);
+                    $respon['success']=true;
+                    $respon['data']=$data; 
                     $response->getBody()->write(json_encode($respon));
                // if (!empty($data)) {
                        /*  if ($uploadedFile!=false){
