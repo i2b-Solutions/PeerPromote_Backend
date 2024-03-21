@@ -73,7 +73,7 @@ return function (App $app) {
         $CityID =  ($data['CityID'] !="") ? $data['CityID'] :  null;
         $CountryID =  ($data['CountryID'] !="") ? $data['CountryID'] :  null;
         $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
-        $language = $data['languages[]']; 
+        $language = $data['languages']; 
         /* $response->getBody()->write(json_encode($data));
         return $response;  */
        
@@ -134,7 +134,7 @@ return function (App $app) {
             //$app->response->setStatus(201);
                     http_response_code(200);
                     $respon['success']='true';
-                    #$respon['data']=$data; 
+                    $respon['data']=$data; 
                     $response->getBody()->write(json_encode($data));
                     return $response; 
                // if (!empty($data)) {
