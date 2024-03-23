@@ -294,4 +294,67 @@ return function (App $app) {
     });
   
     //-----------------------------------------------------------------------------------------------------//
+    /* OBTENER LA FOTO DE PERFIL */
+    $app->post('/user/pictureProfile',function(Request $request, Response $response)use($app){
+        #obtengo las variables y sus datos
+        $data = $request->getParsedBody();
+        
+        if ($data['UserID'] !="") {
+                                          
+            $user=$data['UserID'];
+            $type='2';
+        }else{
+            http_response_code(401);
+            $respon = array();
+            $respon['status']=401;
+            $respon['error']='true';
+            $respon['message']='Failed to receive UserID request';
+            $response->getBody()->write(json_encode($respon));
+            return $response;
+        }
+        #fin de obtencion de variables
+        try {
+                                                           
+            $user_request = new User();
+            $user_request->setUserID($user);
+            $dataUser=$user_request->get_pictureProfile();
+            $respon=array();
+            //$data['Headers']= $app->response->headers['Content-type'] ;
+            //$app->response->setStatus(201);
+                if (!empty($dataUser)) {
+
+                    if (!empty($data)) {
+                    //dibujar imagen 
+                    
+                    $rutaImagen="./picturesProfile/".$user."_".$dataUser['img'];
+                    http_response_code(200);
+                    $imagen = file_get_contents($rutaImagen);
+
+                    // Establecer la respuesta como el contenido de la imagen
+                    $response->getBody()->write($imagen);
+
+                    // Establecer el tipo de contenido de la respuesta
+                    return $response->withHeader('Content-Type', mime_content_type($rutaImagen));
+
+                   /*  $respon['success']=true;
+                    $respon['data']=$dataUser;
+                    //echo json_encode($respon);
+                    $response->getBody()->write(json_encode($respon));
+                    return $response; */
+                }
+             //   echo $response->withJson($respon,201);  //imprime un json con status 200: OK CREATED
+                }
+        }catch (Exception $e){
+    
+        http_response_code(401);
+    
+       $respon= array(
+            "message" => "Access denied.",
+            "error" => $e->getMessage()
+        );
+        echo json_encode($respon);
+     //echo $response->withJson($respon,401);
+    
+         }
+    });
 };

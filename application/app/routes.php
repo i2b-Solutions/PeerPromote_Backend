@@ -74,6 +74,12 @@ return function (App $app) {
         $CountryID =  ($data['CountryID'] !="") ? $data['CountryID'] :  null;
         $Phone =  ($data['Phone'] !="") ? $data['Phone'] : '';
         $language = $data['languages']; 
+        if (isset($data['url'])) {
+            $url =$data['url'];
+        }else{
+            $url='';
+        }
+        
         /* $response->getBody()->write(json_encode($data));
         return $response;  */
        
@@ -130,18 +136,16 @@ return function (App $app) {
             $user_request->setIsCompany($IsCompany);
             $data=$user_request->register_step_three($Birthdate,$CityID,$CountryID,$Phone,$language);
             $respon=array();
-            //$data['Headers']= $app->response->headers['Content-type'] ;
-            //$app->response->setStatus(201);
-                    http_response_code(200);
-                    $respon['success']='true';
-                    $respon['data']=$data; 
-                    $response->getBody()->write(json_encode($data));
-                    return $response; 
-               // if (!empty($data)) {
-                       /*  if ($uploadedFile!=false){
-                            //subir imagen//
-                            if ($uploadedFile->getError() === UPLOAD_ERR_OK && strpos($uploadedFile->getClientMediaType(), 'image') !== false) {
-                                $carpeta=__DIR__ . "/../public/picturesProfile";
+            //guardar imagen si existe
+            if ($url!='') {
+               // if (filter_var($url, FILTER_VALIDATE_URL) === true) {
+                    $imagen = file_get_contents($url);
+                    $nombreImagen = basename($url);
+                    //if ($imagen === true) {
+                    /* $response->getBody()->write(json_encode($nombreImagen));
+                    return $response;  */
+                        /* subir imagen descargada    */
+                        $carpeta=__DIR__ . "/../public/picturesProfile";
                                 $file_path='';
                                 if (!file_exists($carpeta)) {
                                     mkdir($carpeta, 0777, true);// otorgando permiso para crear carpetas en el directorio
@@ -149,12 +153,13 @@ return function (App $app) {
                                 }else{
                                     $file_path=$carpeta;
                                 }
-                                $rutaDestino = $file_path.'/'.$data['UserID'].'_'.$uploadedFile->getClientFilename();
+                                $rutaDestino = $file_path.'/'.$data['UserID'].'_'.$nombreImagen;
                                 try {
-                                    $uploadedFile->moveTo($rutaDestino);
+                                    //$uploadedFile->moveTo($rutaDestino);
+                                    file_put_contents($rutaDestino, $imagen);
                                     //guardar ruta en la base de datos
                                     $user_request->setUserID($data['UserID']);
-                                    $saveIMG = $user_request->upload_image($uploadedFile);
+                                    $saveIMG = $user_request->upload_image($nombreImagen);
                                     $imgPath='';
                                     if ($saveIMG['error']==false){
                                         $imgPath=$saveIMG['img'];
@@ -169,29 +174,25 @@ return function (App $app) {
                                     $response->getBody()->write("Error al subir la imagen: " . $e->getMessage());
                                     return $response->withStatus(500);
                                 }
-
-
-                            } else {
-                                $response->getBody()->write("El archivo enviado no es una imagen válida.");
-                                return $response->withStatus(400);
-                            }  
-                    }else{
-
-                        http_response_code(200);
-                        $respon['success']=true;
-                        $respon['data']=$data;
-                        $respon['img']='';
+                        /* ---------------------------*/
+                    /* }else{
+                        
+                        http_response_code(204);
+                        $respon['success']='true';
+                        $respon['data']=$data; 
+                        $respon['img']='No fue posible descargar la imagen, pero si guardad la informacion'; 
                         $response->getBody()->write(json_encode($respon));
+                        return $response; 
                     } */
-                /* }else{
-
-                    http_response_code(500);
-                    $respon['success']=false;
-                    $respon['data']=$data;
-                    $respon['img']='';
-                    $response->getBody()->write(json_encode($respon));
-                } */
-             //   echo $response->withJson($respon,201);  //imprime un json con status 200: OK CREATED
+               // }
+            }else{
+                http_response_code(200);
+                $respon['success']='true';
+                $respon['data']=$data; 
+                $response->getBody()->write(json_encode($data));
+                return $response; 
+            }
+                    /*  */
         }catch (Exception $e){
     
         http_response_code(401);

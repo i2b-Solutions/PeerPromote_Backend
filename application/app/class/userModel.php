@@ -507,4 +507,29 @@ Idioma = languages.personID--
                         return $respon;
                     }
                 }
+                public function get_pictureProfile()
+                {
+                    $query = "SELECT ProfilePhotoImageFileName as foto FROM PersonalInformation WHERE UserID='$this->UserID'";
+                    $selectall = $this->db->query($query);
+                    $ListUser = $selectall->fetch_all(MYSQLI_ASSOC);
+                    foreach ($ListUser as $key) {
+                        $numRow=$key['foto'];
+                    }
+                    if ($selectall->num_rows != 0 ) {
+                        $respon = array();
+                        $respon['error']='false';
+                        $respon['register']=true;
+                        $respon['img']=$numRow;
+                        $respon['message']='¡Usuario ya registrado!';
+                        //$respon['request']=$this->db->error;
+                        return $respon;
+                    }else{
+                        $respon = array();
+                        $respon['error']='false';
+                        $respon['register']=false;
+                        $respon['message']='¡Usuario No registrado!';
+                        //$respon['request']=$this->db->error;
+                        return $respon;
+                    }
+                }
 }
