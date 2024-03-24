@@ -13,7 +13,7 @@ class UserUseCases
 
     public static function isEmailAvailableUseCase(string $email): bool
     {
-        // Logica para Medoo
-        return true;
+        $userData = UserServices::queryEmailData($email);
+        return ($userData === false);
     }
 }
