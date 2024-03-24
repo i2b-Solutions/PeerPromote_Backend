@@ -11,8 +11,6 @@ deny from all
   # RewriteBase /
   RewriteRule ^$ public/ [L]
   RewriteRule (.*) public/$1 [L]
-  #RewriteCond %{REQUEST_FILENAME} !-f
-  #RewriteRule ^ index.php [QSA,L]
 
   # Redirect to HTTPS
   # RewriteEngine On

@@ -12,11 +12,6 @@ use Slim\Factory\ServerRequestCreatorFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-//incluir clases
-require __DIR__ . '/../app/class/userModel.php';
-require __DIR__ . '/../app/class/PersonalInformation.php';
-require __DIR__ . '/../app/class/languagesModel.php';
-require __DIR__ . '/../app/class/countriesModel.php';
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
 
@@ -50,13 +45,7 @@ $middleware($app);
 
 // Register routes
 $routes = require __DIR__ . '/../app/routes.php';
-$userRoutes = require __DIR__ . '/../app/routes/userRoutes.php';
-$countriesRoutes = require __DIR__ . '/../app/routes/countriesRoutes.php';
-#$companiesRoutes = require __DIR__ . '/../app/routes/companiesRoutes.php';
 $routes($app);
-$userRoutes($app);
-$countriesRoutes($app);
-//$companiesRoutes($app);
 
 /** @var SettingsInterface $settings */
 $settings = $container->get(SettingsInterface::class);
@@ -78,7 +67,6 @@ $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDet
 register_shutdown_function($shutdownHandler);
 
 // Add Routing Middleware
-$app->setBasePath('/PeerPromote_Backend/application');
 $app->addRoutingMiddleware();
 
 // Add Body Parsing Middleware
