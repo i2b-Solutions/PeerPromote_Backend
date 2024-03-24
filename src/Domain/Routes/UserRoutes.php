@@ -17,8 +17,6 @@ class UserRoutes
                 $postData = $request->getParsedBody();
                 $username = $postData['username'] ?? null;
 
-                $isEmptyResponse = DomainHelpers::generateEmptyResponse([$username]);
-
                 if ($isEmptyResponse = DomainHelpers::generateEmptyResponse([$username])) {
                     return DomainHelpers::createJsonResponse($isEmptyResponse, $response);
                 }
