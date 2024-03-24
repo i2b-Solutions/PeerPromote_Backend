@@ -5,11 +5,11 @@ use Data\Dependencies\DependencyManager;
 
 class UserServices
 {
-    private static function queryUserDataByField(string $field, string $value)
+    private static function queryUserDataByField(string $fieldName, string $fieldValue)
     {
         $db = DependencyManager::getDatabase();
-        $query = "SELECT * FROM Users WHERE $field=:$field";
-        return $db->query($query, [$field => $value])->fetch();
+        $query = "SELECT * FROM Users WHERE $fieldName = :value";
+        return $db->query($query, [':value' => $fieldValue])->fetch();
     }
 
     public static function queryUsernameData(string $username)

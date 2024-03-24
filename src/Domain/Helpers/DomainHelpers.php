@@ -16,7 +16,7 @@ class DomainHelpers
      * Generates an error ResponseData if any of the params is empty
      * otherwise returns false
      */
-    public static function generateEmptyResponse(array $array)
+    public static function generateEmptyResponse(array $array): bool|ResponseData
     {
         foreach ($array as $item) {
             if (empty ($item)) {
@@ -43,7 +43,7 @@ class DomainHelpers
         }
     }
 
-    public static function createJsonResponse($responseData, Response $response)
+    public static function createJsonResponse($responseData, Response $response): Response
     {
         $jsonResponse = json_encode($responseData);
         $response->getBody()->write($jsonResponse);
