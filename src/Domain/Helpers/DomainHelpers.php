@@ -12,11 +12,20 @@ class DomainHelpers
         return new ResponseData(null, false, DomainConstants::$EMPTY_PARAMS_RESPONSE);
     }
 
+    private static function createErrorResponse(string $message)
+    {
+        return new ResponseData(null, false, $message);
+    }
+
+    public static function generateErrorResponseData(\Throwable $th, Response $response): ResponseData
+    {
+        return self::createErrorResponse($th->getMessage());
+    }
     /**
      * Generates an error ResponseData if any of the params is empty
      * otherwise returns false
      */
-    public static function generateEmptyResponse(array $array): bool|ResponseData
+    public static function generateEmptyResponseData(array $array): bool|ResponseData
     {
         foreach ($array as $item) {
             if (empty ($item)) {
@@ -26,24 +35,16 @@ class DomainHelpers
         return false;
     }
 
-    public static function createResponseWithError(callable $dataFunction): ResponseData
+    public static function generateOkResponseData($data): ResponseData
     {
-        try {
-            return new ResponseData(
-                $dataFunction(),
-                true,
-                ""
-            );
-        } catch (\Throwable $th) {
-            return new ResponseData(
-                null,
-                false,
-                $th->getMessage()
-            );
-        }
+        return new ResponseData(
+            $data,
+            true,
+            ""
+        );
     }
 
-    public static function createJsonResponse($responseData, Response $response): Response
+    public static function createJsonResponse(ResponseData $responseData, Response $response): Response
     {
         $jsonResponse = json_encode($responseData);
         $response->getBody()->write($jsonResponse);

@@ -1,6 +1,8 @@
 <?php
 namespace Domain\UseCases;
 
+use Data\Entities\UserEntities\RegisterUserRequestData;
+use Data\Entities\UserEntities\RegisterUserResponseData;
 use Data\Services\UserServices;
 
 class UserUseCases
@@ -15,5 +17,10 @@ class UserUseCases
     {
         $userData = UserServices::queryEmailData($email);
         return ($userData === false);
+    }
+
+    public static function registerUserUseCase(RegisterUserRequestData $user): RegisterUserResponseData
+    {
+        return UserServices::queryRegisterUserData($user);
     }
 }
