@@ -8,7 +8,7 @@ class RegisterUserResponseData
 
     public function __construct(int $userId, string $username)
     {
-        $this->UserID = $userId;
-        $this->Username = $username;
+        $this->userId = $userId;
+        $this->username = $username;
     }
 }

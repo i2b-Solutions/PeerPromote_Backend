@@ -7,9 +7,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class DomainHelpers
 {
-    private static function createEmptyParamsResponse()
+    private static function createEmptyParamsResponse(string $message = '')
     {
-        return new ResponseData(null, false, DomainConstants::$EMPTY_PARAMS_RESPONSE);
+        return new ResponseData(null, false, DomainConstants::$EMPTY_PARAMS_RESPONSE . ' | ' . $message);
     }
 
     private static function createErrorResponse(string $message)
@@ -28,7 +28,7 @@ class DomainHelpers
     public static function generateEmptyResponseData(array $array): bool|ResponseData
     {
         foreach ($array as $item) {
-            if (empty ($item)) {
+            if ($item === null || $item === '') {
                 return self::createEmptyParamsResponse();
             }
         }

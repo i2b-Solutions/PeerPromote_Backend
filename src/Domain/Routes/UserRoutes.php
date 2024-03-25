@@ -17,7 +17,7 @@ class UserRoutes
         $app->group('/user', function (Group $group) {
             $group->post('/check_username', function (Request $request, Response $response) {
                 $postData = $request->getParsedBody();
-                $username = $postData['username'] ?? null;
+                $username = $postData['user'] ?? null;
 
                 if ($isEmptyResponse = DomainHelpers::generateEmptyResponseData([$username])) {
                     return DomainHelpers::createJsonResponse($isEmptyResponse, $response);
